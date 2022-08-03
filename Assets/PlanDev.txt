@@ -1,0 +1,16 @@
+
+PLAN
+
+GameManager B
+
+Spawner Enemys D
+Enemys D
+
+Player B
+	Player 1
+	Player 2
+
+Environment
+
+UI B
+FX
