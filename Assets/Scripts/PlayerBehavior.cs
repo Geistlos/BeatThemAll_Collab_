@@ -99,6 +99,7 @@ public class PlayerBehavior : MonoBehaviour
             obj.transform.parent = canPosition.transform;
         }
 
+        //GESTION DE LA HAUTEUR DU JOUEUR POUR QU'IL RETOUCHE LE SOL
         if (!onTheGround)
         {
             JumpAnimation();

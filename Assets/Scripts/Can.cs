@@ -25,6 +25,7 @@ public class Can : MonoBehaviour
 
     private void Update()
     {
+        //WHEN THE CAN HIT THE GROUND
         if (!carried && !onTheGround && transform.position.y < targetY)
         {
             rb.velocity = Vector3.zero;
@@ -35,6 +36,7 @@ public class Can : MonoBehaviour
 
     }
 
+    //THROW CAN, CALLED BY THE PLAYER. GET ORIENTATION FROM IT
     public void ThrowCan( bool flipped)
     {
         rb.constraints = RigidbodyConstraints.None;
