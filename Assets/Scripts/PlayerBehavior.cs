@@ -212,7 +212,6 @@ public class PlayerBehavior : MonoBehaviour
                     jumpTimer += Time.deltaTime;
                     float y = curve.Evaluate(jumpTimer / airTime);
                     graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
-
                 }
                 else
                 {
@@ -232,7 +231,6 @@ public class PlayerBehavior : MonoBehaviour
                     jumpTimer += Time.deltaTime;
                     float y = curve.Evaluate(jumpTimer / airTime);
                     graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
-
                 }
                 else
                 {
