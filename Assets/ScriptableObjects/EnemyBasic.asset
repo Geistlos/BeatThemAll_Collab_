@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06654e124cf0584d9e5d72a9a207042, type: 3}
   m_Name: EnemyBasic
   m_EditorClassIdentifier: 
-  life: 0
-  speed: 0
-  dmg: 0
-  attackSpeed: 0
+  life: 5
+  speed: 2.5
+  dmg: 1
+  attackSpeed: 1
   animator: {fileID: 0}
