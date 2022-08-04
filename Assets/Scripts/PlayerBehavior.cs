@@ -30,6 +30,7 @@ public class PlayerBehavior : MonoBehaviour
     float jumpTimer;
     bool flipped;
     bool isHoldingCan;
+    bool onTheGround = true;
 
     //TEMPS
     float walkingSpeed;
@@ -87,6 +88,11 @@ public class PlayerBehavior : MonoBehaviour
             isHoldingCan = true;
             animator.SetFloat("Can", 1);
         }
+
+        if (!onTheGround)
+        {
+            JumpAnimation();
+        }
     }
 
     void FixedUpdate()
@@ -94,7 +100,22 @@ public class PlayerBehavior : MonoBehaviour
         //STATE MACHINE FIXED UPDATE
         OnStateFixedUpdate();
     }
-
+    public void JumpAnimation()
+    {
+        //CONTROL JUMPING ANIMATION
+        if (jumpTimer < airTime)
+        {
+            jumpTimer += Time.deltaTime;
+            float y = curve.Evaluate(jumpTimer / airTime);
+            graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
+        }
+        else
+        {
+            onTheGround = true;
+            jumpTimer = 0f;
+            TransitionToState(PlayerState.IDLE);
+        }
+    }
 
     //CALLED WHEN ENTERING NEW STATE
     void OnStateEnter()
@@ -125,7 +146,6 @@ public class PlayerBehavior : MonoBehaviour
                 StartCoroutine(waitAnimationEnd(attackDelay, PlayerState.IDLE));
                 break;
             case PlayerState.JUMPING:
-                animator.SetTrigger("Jump");
                 animator.SetBool("IsJumping", true);
                 break;
             case PlayerState.DEATH:
@@ -138,12 +158,14 @@ public class PlayerBehavior : MonoBehaviour
                     animator.SetFloat("Can", randomAtk[Random.Range(0, 4)]);
                 }
                 //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
-                StartCoroutine(waitAnimationEnd(attackDelay, PlayerState.JUMPING));
+                StartCoroutine(waitAnimationEnd(attackDelay, PlayerState.IDLE));
                 break;
             default:
                 break;
         }
     }
+
+
 
     //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
     IEnumerator waitAnimationEnd(float time, PlayerState targetState)
@@ -262,17 +284,7 @@ public class PlayerBehavior : MonoBehaviour
                 break;
             case PlayerState.JUMPING:
                 //CONTROL JUMPING ANIMATION
-                if (jumpTimer < airTime)
-                {
-                    jumpTimer += Time.deltaTime;
-                    float y = curve.Evaluate(jumpTimer / airTime);
-                    graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
-                }
-                else
-                {
-                    jumpTimer = 0f;
-                    TransitionToState(PlayerState.IDLE);
-                }
+                onTheGround = false;
                 //AIR ATTACK
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
@@ -285,17 +297,7 @@ public class PlayerBehavior : MonoBehaviour
             //JUMPING ATTACK
             case PlayerState.JUMPATTACK:
                 //CONTROL JUMPING ANIMATION
-                if (jumpTimer < airTime)
-                {
-                    jumpTimer += Time.deltaTime;
-                    float y = curve.Evaluate(jumpTimer / airTime);
-                    graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
-                }
-                else
-                {
-                    jumpTimer = 0f;
-                    TransitionToState(PlayerState.JUMPING);
-                }
+                onTheGround = false;
                 break;
             default:
                 break;
@@ -314,10 +316,15 @@ public class PlayerBehavior : MonoBehaviour
             case PlayerState.SPRINT:
                 break;
             case PlayerState.ATTACKING:
+                animator.SetBool("IsJumping", false);
                 break;
             case PlayerState.JUMPING:
+                animator.SetBool("IsJumping", false);
                 break;
             case PlayerState.DEATH:
+                break;
+            case PlayerState.JUMPATTACK:
+                animator.SetBool("IsJumping", false);
                 break;
             default:
                 break;
