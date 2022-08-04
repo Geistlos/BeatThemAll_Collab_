@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    [SerializeField] GameObject graphics;
+    //[SerializeField] GameObject graphics;
     [SerializeField] AnimationCurve curve;
 
     public enum PlayerState
@@ -20,15 +20,22 @@ public class PlayerBehavior : MonoBehaviour
 
     Animator animator;
     Rigidbody rb;
-    
+    Transform graphics;
+
     bool playerIsMoving;
     Vector2 dirInput;
+
+    float jumpTimer;
     //TEMPS
     float walkingSpeed = 7;
     float runningSpeed = 14;
+    float airTime = 1f;
+    float jumpHeight = 1.5f;
+    float jumpingSpeed = 10f;
 
     private void Start()
     {
+        graphics = GetComponentInChildren<Transform>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
     }
@@ -50,10 +57,11 @@ public class PlayerBehavior : MonoBehaviour
         switch (currentState)
         {
             case PlayerState.IDLE:
+                rb.velocity = Vector2.zero;
                 break;
             case PlayerState.WALK:
                 animator.SetBool("IsRunning", true);
-                animator.SetFloat("RunningSpeed", 0f);
+                animator.SetFloat("RunningSpeed", 0f);                
                 break;
             case PlayerState.SPRINT:
                 animator.SetBool("IsRunning", true);
@@ -86,6 +94,7 @@ public class PlayerBehavior : MonoBehaviour
             case PlayerState.ATTACKING:
                 break;
             case PlayerState.JUMPING:
+                rb.velocity = dirInput.normalized * jumpingSpeed;
                 break;
             case PlayerState.DEATH:
                 break;
@@ -123,7 +132,7 @@ public class PlayerBehavior : MonoBehaviour
                 }
                 else if (dirInput == Vector2.zero)
                 {
-                    TransitionToState(PlayerState.WALK);
+                    TransitionToState(PlayerState.IDLE);
                 }
                 break;
             case PlayerState.SPRINT:
@@ -143,6 +152,22 @@ public class PlayerBehavior : MonoBehaviour
             case PlayerState.ATTACKING:
                 break;
             case PlayerState.JUMPING:
+                Debug.Log("JumpTimer: " + jumpTimer);
+                Debug.Log("airTime: " + airTime);
+                if (jumpTimer < airTime)
+                {
+                    Debug.Log("Jumping");
+                    jumpTimer += Time.deltaTime;
+                    float y = curve.Evaluate(jumpTimer / airTime);
+                    graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
+
+                }
+                else
+                {
+                    Debug.Log("End of jump");
+                    jumpTimer = 0f;
+                    TransitionToState(PlayerState.IDLE);
+                }
                 break;
             case PlayerState.DEATH:
                 break;
@@ -174,6 +199,8 @@ public class PlayerBehavior : MonoBehaviour
 
     void TransitionToState(PlayerState newState)
     {
+        Debug.Log("Leave state: " + currentState);
+        Debug.Log("Enter state: " + newState);
         OnStateLeave();
         currentState = newState;
         OnStateEnter();
