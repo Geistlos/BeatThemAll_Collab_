@@ -32,13 +32,16 @@ public class PlayerBehavior : MonoBehaviour
     //TEMPS
     float walkingSpeed = 7;
     float runningSpeed = 14;
-    float airTime = 1f;
+    float airTime = .7f;
     float jumpHeight = 1.5f;
     float jumpingSpeed = 7f;
 
     //WIP CAN
     int can;
     bool isHoldingCan;
+
+    //Random attack animation
+    List<float> randomAtk = new List<float> { 0f, 0.25f, 0.50f, .75f };
 
     private void Start()
     {
@@ -76,7 +79,7 @@ public class PlayerBehavior : MonoBehaviour
         OnStateFixedUpdate();
     }
 
-
+    [System.Obsolete]
     void OnStateEnter()
     {
         switch (currentState)
@@ -94,7 +97,12 @@ public class PlayerBehavior : MonoBehaviour
                 animator.SetBool("IsRunning", true);
                 break;
             case PlayerState.ATTACKING:
+
                 animator.SetTrigger("Attacking");
+                if (!isHoldingCan)
+                {
+                    animator.SetFloat("Can", randomAtk[Random.Range(0, 4)]);
+                }
                 attackAnimationDuration = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
                 StartCoroutine(waitAnimationEnd(attackAnimationDuration, PlayerState.IDLE));
                 break;
@@ -105,7 +113,12 @@ public class PlayerBehavior : MonoBehaviour
             case PlayerState.DEATH:
                 break;
             case PlayerState.JUMPATTACK:
+
                 animator.SetTrigger("Attacking");
+                if (!isHoldingCan)
+                {
+                    animator.SetFloat("Can", randomAtk[Random.Range(0, 4)]);
+                }
                 attackAnimationDuration = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
                 StartCoroutine(waitAnimationEnd(attackAnimationDuration, PlayerState.JUMPING));
                 break;
@@ -117,6 +130,10 @@ public class PlayerBehavior : MonoBehaviour
     IEnumerator waitAnimationEnd(float time, PlayerState targetState)
     {
         yield return new WaitForSeconds(time);
+        if (!isHoldingCan)
+        {
+            animator.SetFloat("Can", 0);
+        }
         TransitionToState(targetState);
     }
     void OnStateFixedUpdate()
