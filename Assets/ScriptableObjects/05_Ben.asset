@@ -12,3 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06654e124cf0584d9e5d72a9a207042, type: 3}
   m_Name: 05_Ben
   m_EditorClassIdentifier: 
+  life: 0
+  speed: 7
+  runningSpeed: 14
+  dmg: 0
+  attackSpeed: 0.5
+  animator: {fileID: 0}
+  airTime: 0.7
+  jumpHeight: 1.5
+  jumpingSpeed: 7

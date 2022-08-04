@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
 {
+    //LINKS
     [SerializeField] AnimationCurve curve;
+    [SerializeField] StatsScriptable stats;
 
     //STATE MACHINE
     public enum PlayerState
@@ -30,12 +32,12 @@ public class PlayerBehavior : MonoBehaviour
     bool isHoldingCan;
 
     //TEMPS
-    float walkingSpeed = 7;
-    float runningSpeed = 14;
-    float airTime = .7f;
-    float jumpHeight = 1.5f;
-    float jumpingSpeed = 7f;
-    float attackDelay = .50f;
+    float walkingSpeed;
+    float runningSpeed;
+    float airTime;
+    float jumpHeight;
+    float jumpingSpeed;
+    float attackDelay;
 
     //INPUTS
     Vector2 dirInput;
@@ -45,6 +47,14 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Start()
     {
+        //GET STATS
+        walkingSpeed = stats.speed;
+        runningSpeed = stats.runningSpeed;
+        airTime = stats.airTime;
+        jumpHeight = stats.jumpHeight;
+        jumpingSpeed = stats.jumpHeight;
+        attackDelay = stats.attackSpeed;
+
         //LINKS TO GAMEOBJECT / COMPONENTS
         graphics = GetComponentInChildren<Transform>();
         animator = GetComponentInChildren<Animator>();
@@ -269,12 +279,12 @@ public class PlayerBehavior : MonoBehaviour
                     TransitionToState(PlayerState.JUMPATTACK);
                 }
                 break;
-                //PLAYER DEATH
+            //PLAYER DEATH
             case PlayerState.DEATH:
                 break;
-                //JUMPING ATTACK
+            //JUMPING ATTACK
             case PlayerState.JUMPATTACK:
-                //CONTRO JUMPING ANIMATION
+                //CONTROL JUMPING ANIMATION
                 if (jumpTimer < airTime)
                 {
                     jumpTimer += Time.deltaTime;

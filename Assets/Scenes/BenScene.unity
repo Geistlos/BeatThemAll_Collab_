@@ -186,6 +186,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  stats: {fileID: 11400000, guid: 0f42c628f2012e84ba541499ea4f6e85, type: 2}
   currentState: 0
 --- !u!4 &14706532
 Transform:
