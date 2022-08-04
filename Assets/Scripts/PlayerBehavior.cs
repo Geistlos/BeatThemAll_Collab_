@@ -14,7 +14,8 @@ public class PlayerBehavior : MonoBehaviour
         SPRINT,
         ATTACKING,
         JUMPING,
-        DEATH
+        DEATH,
+        JUMPATTACK
     }
     public PlayerState currentState;
 
@@ -26,12 +27,13 @@ public class PlayerBehavior : MonoBehaviour
     Vector2 dirInput;
 
     float jumpTimer;
+    float attackAnimationDuration;
     //TEMPS
     float walkingSpeed = 7;
     float runningSpeed = 14;
     float airTime = 1f;
     float jumpHeight = 1.5f;
-    float jumpingSpeed = 10f;
+    float jumpingSpeed = 7f;
 
     private void Start()
     {
@@ -58,26 +60,42 @@ public class PlayerBehavior : MonoBehaviour
         {
             case PlayerState.IDLE:
                 rb.velocity = Vector2.zero;
+                animator.SetBool("IsRunning", false);
+                animator.SetBool("IsJumping", false);
                 break;
             case PlayerState.WALK:
                 animator.SetBool("IsRunning", true);
-                animator.SetFloat("RunningSpeed", 0f);                
+                animator.SetFloat("RunningSpeed", 0f);
                 break;
             case PlayerState.SPRINT:
                 animator.SetBool("IsRunning", true);
                 animator.SetFloat("RunningSpeed", 1f);
                 break;
             case PlayerState.ATTACKING:
+                animator.SetTrigger("Attacking");
+                attackAnimationDuration = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+                StartCoroutine(waitAnimationEnd(attackAnimationDuration, PlayerState.IDLE));
                 break;
             case PlayerState.JUMPING:
                 animator.SetTrigger("Jump");
-                Debug.Log("Jump");
+                animator.SetBool("IsJumping", true);
                 break;
             case PlayerState.DEATH:
+                break;
+            case PlayerState.JUMPATTACK:
+                animator.SetTrigger("Attacking");
+                attackAnimationDuration = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+                StartCoroutine(waitAnimationEnd(attackAnimationDuration, PlayerState.JUMPING));
                 break;
             default:
                 break;
         }
+    }
+
+    IEnumerator waitAnimationEnd(float time, PlayerState targetState)
+    {
+        yield return new WaitForSeconds(time);
+        TransitionToState(targetState);
     }
     void OnStateFixedUpdate()
     {
@@ -98,6 +116,9 @@ public class PlayerBehavior : MonoBehaviour
                 break;
             case PlayerState.DEATH:
                 break;
+            case PlayerState.JUMPATTACK:
+                rb.velocity = dirInput.normalized * jumpingSpeed;
+                break;
             default:
                 break;
         }
@@ -116,6 +137,10 @@ public class PlayerBehavior : MonoBehaviour
                 {
                     TransitionToState(PlayerState.SPRINT);
                 }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    TransitionToState(PlayerState.ATTACKING);
+                }
                 else if (dirInput != Vector2.zero)
                 {
                     TransitionToState(PlayerState.WALK);
@@ -129,6 +154,10 @@ public class PlayerBehavior : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
                     TransitionToState(PlayerState.SPRINT);
+                }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    TransitionToState(PlayerState.ATTACKING);
                 }
                 else if (dirInput == Vector2.zero)
                 {
@@ -144,6 +173,10 @@ public class PlayerBehavior : MonoBehaviour
                 {
                     TransitionToState(PlayerState.WALK);
                 }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    TransitionToState(PlayerState.ATTACKING);
+                }
                 if (dirInput == Vector2.zero)
                 {
                     TransitionToState(PlayerState.IDLE);
@@ -152,11 +185,8 @@ public class PlayerBehavior : MonoBehaviour
             case PlayerState.ATTACKING:
                 break;
             case PlayerState.JUMPING:
-                Debug.Log("JumpTimer: " + jumpTimer);
-                Debug.Log("airTime: " + airTime);
                 if (jumpTimer < airTime)
                 {
-                    Debug.Log("Jumping");
                     jumpTimer += Time.deltaTime;
                     float y = curve.Evaluate(jumpTimer / airTime);
                     graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
@@ -164,12 +194,29 @@ public class PlayerBehavior : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("End of jump");
                     jumpTimer = 0f;
                     TransitionToState(PlayerState.IDLE);
                 }
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    TransitionToState(PlayerState.JUMPATTACK);
+                }
                 break;
             case PlayerState.DEATH:
+                break;
+            case PlayerState.JUMPATTACK:
+                if (jumpTimer < airTime)
+                {
+                    jumpTimer += Time.deltaTime;
+                    float y = curve.Evaluate(jumpTimer / airTime);
+                    graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
+
+                }
+                else
+                {
+                    jumpTimer = 0f;
+                    TransitionToState(PlayerState.JUMPING);
+                }
                 break;
             default:
                 break;
@@ -199,8 +246,6 @@ public class PlayerBehavior : MonoBehaviour
 
     void TransitionToState(PlayerState newState)
     {
-        Debug.Log("Leave state: " + currentState);
-        Debug.Log("Enter state: " + newState);
         OnStateLeave();
         currentState = newState;
         OnStateEnter();
