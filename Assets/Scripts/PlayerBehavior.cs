@@ -28,6 +28,7 @@ public class PlayerBehavior : MonoBehaviour
 
     float jumpTimer;
     float attackAnimationDuration;
+    bool flipped;
     //TEMPS
     float walkingSpeed = 7;
     float runningSpeed = 14;
@@ -45,6 +46,16 @@ public class PlayerBehavior : MonoBehaviour
     private void Update()
     {
         dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (dirInput.x < 0 && !flipped)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            flipped = true;
+        }
+        else if (dirInput.x > 0 && flipped)
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            flipped = false;
+        }
         OnStateUpdate();
     }
 
