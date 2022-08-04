@@ -36,6 +36,10 @@ public class PlayerBehavior : MonoBehaviour
     float jumpHeight = 1.5f;
     float jumpingSpeed = 7f;
 
+    //WIP CAN
+    int can;
+    bool isHoldingCan;
+
     private void Start()
     {
         graphics = GetComponentInChildren<Transform>();
@@ -57,6 +61,14 @@ public class PlayerBehavior : MonoBehaviour
             flipped = false;
         }
         OnStateUpdate();
+
+        //TODO
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            can = 1;
+            isHoldingCan = true;
+            animator.SetFloat("Can", 1);
+        }
     }
 
     void FixedUpdate()
@@ -72,15 +84,14 @@ public class PlayerBehavior : MonoBehaviour
             case PlayerState.IDLE:
                 rb.velocity = Vector2.zero;
                 animator.SetBool("IsRunning", false);
+                animator.SetBool("IsMoving", false);
                 animator.SetBool("IsJumping", false);
                 break;
             case PlayerState.WALK:
-                animator.SetBool("IsRunning", true);
-                animator.SetFloat("RunningSpeed", 0f);
+                animator.SetBool("IsMoving", true);
                 break;
             case PlayerState.SPRINT:
                 animator.SetBool("IsRunning", true);
-                animator.SetFloat("RunningSpeed", 1f);
                 break;
             case PlayerState.ATTACKING:
                 animator.SetTrigger("Attacking");
