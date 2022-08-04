@@ -8,7 +8,7 @@ public class StatsScriptable : ScriptableObject
     public float runningSpeed;
     public float dmg;
     public float attackSpeed;
-    public Animator animator;
+    public RuntimeAnimatorController animator;
 
     //Players'only stats
     public float airTime;

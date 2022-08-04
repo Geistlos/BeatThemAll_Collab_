@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06654e124cf0584d9e5d72a9a207042, type: 3}
   m_Name: EnemyBasic
   m_EditorClassIdentifier: 
-  life: 0
-  speed: 0
-  dmg: 0
-  attackSpeed: 0
-  animator: {fileID: 0}
+  life: 5
+  speed: 2.5
+  runningSpeed: 0
+  dmg: 1
+  attackSpeed: 1
+  animator: {fileID: 9100000, guid: a36e54cc5200a034f9bfbfd512415602, type: 2}
+  airTime: 0
+  jumpHeight: 0
+  jumpingSpeed: 0
