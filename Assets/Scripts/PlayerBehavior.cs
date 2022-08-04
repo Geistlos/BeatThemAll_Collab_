@@ -28,6 +28,7 @@ public class PlayerBehavior : MonoBehaviour
     Rigidbody rb;
     Transform graphics;
 
+
     //CONTROL
     float jumpTimer;
     bool flipped;
@@ -94,7 +95,18 @@ public class PlayerBehavior : MonoBehaviour
             isHoldingCan = true;
             animator.SetFloat("Can", 1);
             canPosition.SetActive(true);
-            //Instantiate(canPrefab, canPosition.transform.position, canPosition.transform.eulerAngles );
+            var obj = Instantiate(canPrefab, canPosition.transform.position, Quaternion.identity);
+            obj.GetComponent<Can>().flipped = flipped;
+            /*if (flipped)
+            {
+                Instantiate(canPrefab, canPosition.transform.position, transform.rotation * Quaternion.Euler(0f, 180f, 0f));
+                Debug.Log("rotation: " + transform.rotation * Quaternion.Euler(0f, 180f, 0f));
+            }
+            else
+            {
+                Instantiate(canPrefab, canPosition.transform.position, transform.rotation * Quaternion.Euler(0f, 0f, 0f));
+                Debug.Log("rotation: " + transform.rotation * Quaternion.Euler(0f, 0f, 0f));
+            }*/
         }
 
         if (!onTheGround)
