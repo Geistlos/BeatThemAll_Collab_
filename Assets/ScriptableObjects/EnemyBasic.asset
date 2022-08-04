@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 5
   speed: 2.5
+  runningSpeed: 0
   dmg: 1
   attackSpeed: 1
-  animator: {fileID: 0}
+  animator: {fileID: 9100000, guid: a36e54cc5200a034f9bfbfd512415602, type: 2}
+  airTime: 0
+  jumpHeight: 0
+  jumpingSpeed: 0
