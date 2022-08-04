@@ -97,14 +97,14 @@ public class PlayerBehavior : MonoBehaviour
                 animator.SetBool("IsRunning", true);
                 break;
             case PlayerState.ATTACKING:
-
+                rb.velocity = Vector2.zero;
                 animator.SetTrigger("Attacking");
                 if (!isHoldingCan)
                 {
                     animator.SetFloat("Can", randomAtk[Random.Range(0, 4)]);
                 }
                 attackAnimationDuration = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-                StartCoroutine(waitAnimationEnd(attackAnimationDuration, PlayerState.IDLE));
+                StartCoroutine(waitAnimationEnd(.25f, PlayerState.IDLE));
                 break;
             case PlayerState.JUMPING:
                 animator.SetTrigger("Jump");
@@ -120,7 +120,7 @@ public class PlayerBehavior : MonoBehaviour
                     animator.SetFloat("Can", randomAtk[Random.Range(0, 4)]);
                 }
                 attackAnimationDuration = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-                StartCoroutine(waitAnimationEnd(attackAnimationDuration, PlayerState.JUMPING));
+                StartCoroutine(waitAnimationEnd(.25f, PlayerState.JUMPING));
                 break;
             default:
                 break;
@@ -129,6 +129,7 @@ public class PlayerBehavior : MonoBehaviour
 
     IEnumerator waitAnimationEnd(float time, PlayerState targetState)
     {
+        Debug.Log("Animation time: " + time);
         yield return new WaitForSeconds(time);
         if (!isHoldingCan)
         {
@@ -222,6 +223,7 @@ public class PlayerBehavior : MonoBehaviour
                 }
                 break;
             case PlayerState.ATTACKING:
+                rb.velocity = Vector2.zero;
                 break;
             case PlayerState.JUMPING:
                 if (jumpTimer < airTime)
