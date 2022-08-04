@@ -13,15 +13,33 @@ public class Can : MonoBehaviour
 
     //CONTROL
     bool onTheGround;
+    bool carried;
     float targetY;
-    float offSetY = 1f;
-    public bool flipped;
+    float offSetY = 1.5f;
 
     [SerializeField] AnimationCurve curve;
     private void Start()
     {
-        targetY = transform.position.y - offSetY;
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        if (!carried && !onTheGround && transform.position.y < targetY)
+        {
+            rb.velocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.FreezePosition;
+            onTheGround = true;
+            transform.parent = null;
+        }
+
+    }
+
+    public void ThrowCan( bool flipped)
+    {
+        rb.constraints = RigidbodyConstraints.None;
+        carried = false;
+        targetY = transform.position.y - offSetY;
 
         if (!flipped)
         {
@@ -31,16 +49,5 @@ public class Can : MonoBehaviour
         {
             rb.velocity = new Vector3(-.85f, -.1f, 0) * flightSpeed;
         }
-    }
-
-    private void Update()
-    {
-        if (!onTheGround && transform.position.y < targetY)
-        {
-            rb.velocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.FreezePosition;
-            onTheGround = true;
-        }
-
     }
 }

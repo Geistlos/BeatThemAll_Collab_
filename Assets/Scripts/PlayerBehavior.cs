@@ -96,17 +96,7 @@ public class PlayerBehavior : MonoBehaviour
             animator.SetFloat("Can", 1);
             canPosition.SetActive(true);
             var obj = Instantiate(canPrefab, canPosition.transform.position, Quaternion.identity);
-            obj.GetComponent<Can>().flipped = flipped;
-            /*if (flipped)
-            {
-                Instantiate(canPrefab, canPosition.transform.position, transform.rotation * Quaternion.Euler(0f, 180f, 0f));
-                Debug.Log("rotation: " + transform.rotation * Quaternion.Euler(0f, 180f, 0f));
-            }
-            else
-            {
-                Instantiate(canPrefab, canPosition.transform.position, transform.rotation * Quaternion.Euler(0f, 0f, 0f));
-                Debug.Log("rotation: " + transform.rotation * Quaternion.Euler(0f, 0f, 0f));
-            }*/
+            obj.transform.parent = canPosition.transform;
         }
 
         if (!onTheGround)
@@ -145,6 +135,11 @@ public class PlayerBehavior : MonoBehaviour
                 if (!isHoldingCan)
                 {
                     animator.SetFloat("Can", randomAtk[Random.Range(0, 4)]);
+                }
+                else
+                {
+                    isHoldingCan = false;
+                    canPosition.GetComponentInChildren<Can>().ThrowCan(flipped);
                 }
                 //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
                 StartCoroutine(waitAnimationEnd(attackDelay, PlayerState.IDLE));
