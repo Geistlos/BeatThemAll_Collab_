@@ -7,6 +7,8 @@ public class PlayerBehavior : MonoBehaviour
     //LINKS
     [SerializeField] AnimationCurve curve;
     [SerializeField] StatsScriptable stats;
+    [SerializeField] GameObject canPosition;
+    [SerializeField] GameObject canPrefab;
 
     //STATE MACHINE
     public enum PlayerState
@@ -32,7 +34,9 @@ public class PlayerBehavior : MonoBehaviour
     bool isHoldingCan;
     bool onTheGround = true;
 
-    //TEMPS
+    //STATS
+    float life;
+    float dmg;
     float walkingSpeed;
     float runningSpeed;
     float airTime;
@@ -49,6 +53,8 @@ public class PlayerBehavior : MonoBehaviour
     private void Start()
     {
         //GET STATS
+        life = stats.life;
+        dmg = stats.dmg;
         walkingSpeed = stats.speed;
         runningSpeed = stats.runningSpeed;
         airTime = stats.airTime;
@@ -87,6 +93,8 @@ public class PlayerBehavior : MonoBehaviour
         {
             isHoldingCan = true;
             animator.SetFloat("Can", 1);
+            canPosition.SetActive(true);
+            //Instantiate(canPrefab, canPosition.transform.position, canPosition.transform.eulerAngles );
         }
 
         if (!onTheGround)
@@ -99,22 +107,6 @@ public class PlayerBehavior : MonoBehaviour
     {
         //STATE MACHINE FIXED UPDATE
         OnStateFixedUpdate();
-    }
-    public void JumpAnimation()
-    {
-        //CONTROL JUMPING ANIMATION
-        if (jumpTimer < airTime)
-        {
-            jumpTimer += Time.deltaTime;
-            float y = curve.Evaluate(jumpTimer / airTime);
-            graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
-        }
-        else
-        {
-            onTheGround = true;
-            jumpTimer = 0f;
-            TransitionToState(PlayerState.IDLE);
-        }
     }
 
     //CALLED WHEN ENTERING NEW STATE
@@ -164,8 +156,6 @@ public class PlayerBehavior : MonoBehaviour
                 break;
         }
     }
-
-
 
     //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
     IEnumerator waitAnimationEnd(float time, PlayerState targetState)
@@ -286,7 +276,7 @@ public class PlayerBehavior : MonoBehaviour
                 //CONTROL JUMPING ANIMATION
                 onTheGround = false;
                 //AIR ATTACK
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.Mouse0) && !isHoldingCan)
                 {
                     TransitionToState(PlayerState.JUMPATTACK);
                 }
@@ -337,5 +327,22 @@ public class PlayerBehavior : MonoBehaviour
         OnStateLeave();
         currentState = newState;
         OnStateEnter();
+    }
+
+    //CONTROL JUMPING 
+    public void JumpAnimation()
+    {
+        if (jumpTimer < airTime)
+        {
+            jumpTimer += Time.deltaTime;
+            float y = curve.Evaluate(jumpTimer / airTime);
+            graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
+        }
+        else
+        {
+            onTheGround = true;
+            jumpTimer = 0f;
+            TransitionToState(PlayerState.IDLE);
+        }
     }
 }
