@@ -215,6 +215,7 @@ public class EnemyBehavior : MonoBehaviour
             if (collider.tag == "Player")
             {
                 //Debug.Log(collider.gameObject.name + " HIT");
+                collider.GetComponent<PlayerBehavior>().TakeHit(statsScriptable.dmg);
             }
         }
     }
