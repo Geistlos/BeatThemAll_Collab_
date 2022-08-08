@@ -4,28 +4,29 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
 {
-
-    public enum EnemyState { Idle, Walk, Attack, Dead}
+    public enum EnemyState { Idle, Walk, Attack, Dead, Hurted}
     public EnemyState currentState;
     [SerializeField] StatsScriptable statsScriptable;
 
     Rigidbody2D rb2d;
     SpriteRenderer sr;
     Animator animator;
-    Transform targetTransform;
+
+    Transform currentTarget;
+    [SerializeField] Transform player1;
+    [SerializeField] Transform player2;
 
     Vector2 dirMove;
-    bool targetOnRange;
     bool attackSwitch;
     float health;
     float speed;
     float timer;
     float cooldown;
-    bool isDead;
 
 
     void Start()
     {
+        GetComponentInChildren<Animator>().runtimeAnimatorController = statsScriptable.animator;
         rb2d = GetComponent<Rigidbody2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
@@ -54,9 +55,13 @@ public class EnemyBehavior : MonoBehaviour
                 cooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
                 break;
             case EnemyState.Dead:
-                if(!isDead) animator.SetTrigger("DeathTrigger");
-                isDead = true;
+                animator.SetTrigger("DeathTrigger");
                 timer = 0f;
+                break;
+            case EnemyState.Hurted:
+                animator.SetTrigger("HurtTrigger");
+                timer = 0f;
+                cooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
                 break;
             default:
                 break;
@@ -65,9 +70,9 @@ public class EnemyBehavior : MonoBehaviour
 
     void OnStateUpdate ()
     {
-        if (targetTransform != null && !isDead)
+        if (currentTarget != null && currentState != EnemyState.Dead)
         {
-            dirMove = targetTransform.position - transform.position;
+            dirMove = currentTarget.position - transform.position;
 
             if (dirMove != Vector2.zero) { if (dirMove.x > 0) sr.flipX = false; else sr.flipX = true; }
         }
@@ -90,23 +95,36 @@ public class EnemyBehavior : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.Idle:
-                if(targetOnRange == true)
+                if(currentTarget != null)
                 {
                     timer += Time.deltaTime;
                     if (timer > statsScriptable.attackSpeed) TransitionToState(EnemyState.Attack);
 
-                    if (Vector2.Distance(transform.position, targetTransform.position) > 1f) TransitionToState(EnemyState.Walk);
+                    if (Vector2.Distance(transform.position, currentTarget.position) > 1f) TransitionToState(EnemyState.Walk);
+                }
+
+                if (currentTarget == null)
+                {
+                    if (Vector2.Distance(transform.position, player1.position) < 5f) currentTarget = player1;
+
+                    if (Vector2.Distance(transform.position, player2.position) < 5f) currentTarget = player2;
                 }
                 break;
             case EnemyState.Walk:
-                if(targetOnRange == false)
+                if(currentTarget == null)
                 {
                     TransitionToState(EnemyState.Idle);
                     return;
                 }
 
-                if (Vector2.Distance(transform.position, targetTransform.position) < 0.5f) TransitionToState(EnemyState.Idle);
+                if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f) TransitionToState(EnemyState.Idle);
 
+
+                if (Vector2.Distance(transform.position, currentTarget.position) > 5f)
+                {
+                    currentTarget = null;
+                    TransitionToState(EnemyState.Idle);
+                }
                 break;
             case EnemyState.Attack:
                 timer += Time.deltaTime;
@@ -116,6 +134,10 @@ public class EnemyBehavior : MonoBehaviour
                 timer += Time.deltaTime;
                 if(timer >= 2f) Destroy(gameObject);
                 break;
+            case EnemyState.Hurted:
+                timer += Time.deltaTime;
+                if (timer >= cooldown) TransitionToState(EnemyState.Idle);
+                break;
             default:
                 break;
         }
@@ -123,7 +145,23 @@ public class EnemyBehavior : MonoBehaviour
 
     void OnStateFixedUpdate()
     {
-
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                break;
+            case EnemyState.Walk:
+                if (currentTarget != null) rb2d.velocity = dirMove.normalized * speed;
+                break;
+            case EnemyState.Attack:
+                break;
+            case EnemyState.Dead:
+                break;
+            case EnemyState.Hurted:
+                if (timer < 0.25f) rb2d.velocity = -dirMove.normalized * 2; else rb2d.velocity = Vector2.zero;
+                break;
+            default:
+                break;
+        }
     }
 
     void OnStateExit ()
@@ -140,6 +178,9 @@ public class EnemyBehavior : MonoBehaviour
                 break;
             case EnemyState.Dead:
                 break;
+            case EnemyState.Hurted:
+                timer = 0f;
+                break;
             default:
                 break;
         }
@@ -154,21 +195,13 @@ public class EnemyBehavior : MonoBehaviour
 
     public void TakeDamage(int DamageAmount)
     {
+        if (currentState != EnemyState.Dead)
+        {
         health -= DamageAmount;
         if(health <= 0) TransitionToState(EnemyState.Dead);
-        else animator.SetTrigger("HurtTrigger");
-    }
-
-    public void PlayerDetected(Transform target)
-    {
-        targetTransform = target;
-        targetOnRange = true;
-    }
-
-    public void PlayerLost()
-    {
-        targetTransform = null;
-        targetOnRange = false;
+        else TransitionToState(EnemyState.Hurted);
+        animator.SetTrigger("HurtTrigger");
+        }
     }
 
     public void Attack()
@@ -193,19 +226,6 @@ public class EnemyBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        switch (currentState)
-        {
-            case EnemyState.Idle:
-                break;
-            case EnemyState.Walk:
-                if (targetOnRange == true) rb2d.velocity = dirMove.normalized * speed;
-                break;
-            case EnemyState.Attack:
-                break;
-            case EnemyState.Dead:
-                break;
-            default:
-                break;
-        }
+        OnStateFixedUpdate();
     }
 }
