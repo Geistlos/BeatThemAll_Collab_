@@ -64,7 +64,7 @@ public class PlayerBehavior : MonoBehaviour
         attackDelay = stats.attackSpeed;
 
         //LINKS TO GAMEOBJECT / COMPONENTS
-        graphics = GetComponentInChildren<Transform>();
+        graphics = this.gameObject.transform.GetChild(0);
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
     }
@@ -342,9 +342,10 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (jumpTimer < airTime)
         {
+            Debug.Log("JumpHeight :" + jumpTimer);
             jumpTimer += Time.deltaTime;
             float y = curve.Evaluate(jumpTimer / airTime);
-            graphics.localPosition = new Vector3(transform.localPosition.x, y * jumpHeight, transform.localPosition.z);
+            graphics.localPosition = new Vector3(graphics.localPosition.x, y * jumpHeight, graphics.localPosition.z);
         }
         else
         {
