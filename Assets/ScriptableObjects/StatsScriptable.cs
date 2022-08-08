@@ -9,9 +9,11 @@ public class StatsScriptable : ScriptableObject
     public int dmg;
     public float attackSpeed;
     public RuntimeAnimatorController animator;
+    public float radiusHitbox;
 
     //Players'only stats
     public float airTime;
     public float jumpHeight;
     public float jumpingSpeed;
+    public float invulnerabilityDuration;
 }

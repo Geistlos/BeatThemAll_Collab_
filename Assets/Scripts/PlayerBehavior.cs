@@ -10,7 +10,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] GameObject canPosition;
     [SerializeField] GameObject hitPosition;
     [SerializeField] GameObject canPrefab;
-    [SerializeField] GameObject healthBar;
+    [SerializeField] GameObject healthBarCanevas;
 
     //STATE MACHINE
     public enum PlayerState
@@ -47,6 +47,9 @@ public class PlayerBehavior : MonoBehaviour
     float jumpHeight;
     float jumpingSpeed;
     float attackDelay;
+    float invulnerabilityDuration;
+    float radiusHitbox;
+    RuntimeAnimatorController _animator;
 
     //INPUTS
     Vector2 dirInput;
@@ -65,6 +68,11 @@ public class PlayerBehavior : MonoBehaviour
         jumpHeight = stats.jumpHeight;
         jumpingSpeed = stats.jumpHeight;
         attackDelay = stats.attackSpeed;
+        invulnerabilityDuration = stats.invulnerabilityDuration;
+        radiusHitbox = stats.radiusHitbox;
+        _animator = stats.animator;
+
+        transform.GetComponentInChildren<Animator>().runtimeAnimatorController = _animator;
 
         //LINKS TO GAMEOBJECT / COMPONENTS
         graphics = this.gameObject.transform.GetChild(0).transform;
@@ -72,7 +80,7 @@ public class PlayerBehavior : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         //SET UI
-        _healthBar = healthBar.GetComponentInChildren<HealthBar>();
+        _healthBar = healthBarCanevas.GetComponentInChildren<HealthBar>();
         _healthBar.SetMaxHealth(playerlife);
     }
 
@@ -182,6 +190,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     #endregion
 
+    #region ON STATE FIXED UPDATE
     //STATE MACHINE FIXED UPDATE
     void OnStateFixedUpdate()
     {
@@ -208,8 +217,8 @@ public class PlayerBehavior : MonoBehaviour
             default:
                 break;
         }
-
     }
+    #endregion
 
     #region ON STATE UPDATE
     //STATE MACHINE UPDATE
@@ -369,7 +378,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         Collider2D[] Colliders;
 
-        Colliders = Physics2D.OverlapCircleAll(hitPosition.transform.position, .3f);
+        Colliders = Physics2D.OverlapCircleAll(hitPosition.transform.position, radiusHitbox);
 
         foreach (Collider2D collider in Colliders)
         {
@@ -385,17 +394,20 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (!invulnerability)
         {
-            if (playerlife > dmgTaken)
+            playerlife -= dmgTaken;
+            _healthBar.SetHealth(playerlife);
+            if (playerlife > 0)
             {
                 StartCoroutine(startInvulnerabiliy());
-                playerlife -= dmgTaken;
-                _healthBar.SetHealth(playerlife);
+                               
+                Debug.Log("New Life= " + playerlife);
             }
             else
             {
                 TransitionToState(PlayerState.DEATH);
                 Debug.Log("You Died");
             }
+
         }
     }
 
@@ -403,7 +415,7 @@ public class PlayerBehavior : MonoBehaviour
     IEnumerator startInvulnerabiliy()
     {
         invulnerability = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(invulnerabilityDuration);
         invulnerability = false;
     }
 

@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2587276954541782115, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+      propertyPath: healthBarCanevas
+      value: 
+      objectReference: {fileID: 639745548}
     - target: {fileID: 2587276954541782116, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -180,6 +184,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+--- !u!1 &639745548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1460059909451943960, guid: e93aee508253c8441869719d9e2c21e9, type: 3}
+  m_PrefabInstance: {fileID: 1460059908879527444}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705614823
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,6 +660,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1460059907598594918, guid: e93aee508253c8441869719d9e2c21e9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1460059907598594918, guid: e93aee508253c8441869719d9e2c21e9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

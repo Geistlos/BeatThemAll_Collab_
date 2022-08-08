@@ -17,7 +17,9 @@ MonoBehaviour:
   runningSpeed: 14
   dmg: 1
   attackSpeed: 0.5
-  animator: {fileID: 0}
+  animator: {fileID: 9100000, guid: b9daf5b00993f86488f5a752324b8719, type: 2}
+  radiusHitbox: 0.5
   airTime: 0.7
   jumpHeight: 1.5
   jumpingSpeed: 7
+  invulnerabilityDuration: 0.5
