@@ -367,16 +367,15 @@ public class PlayerBehavior : MonoBehaviour
     //PLAYER ATTACK
     public void Attack()
     {
-        Collider[] Colliders;
+        Collider2D[] Colliders;
 
-        Colliders = Physics.OverlapSphere(hitPosition.transform.position, .3f);
+        Colliders = Physics2D.OverlapCircleAll(hitPosition.transform.position, .3f);
 
-        foreach (Collider collider in Colliders)
+        foreach (Collider2D collider in Colliders)
         {
             if (collider.tag == "Enemy")
             {
-                Debug.Log(collider.gameObject.name + " HIT");
-                //collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
+                collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
             }
         }
     }
