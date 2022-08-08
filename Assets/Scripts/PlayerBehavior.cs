@@ -96,7 +96,7 @@ public class PlayerBehavior : MonoBehaviour
         //STATE MACHINE UPDATE
         OnStateUpdate();
 
-        //TODO / TEMPS
+        //TODO / TEMPS PICK A CAN
         if (Input.GetKeyDown(KeyCode.H))
         {
             isHoldingCan = true;
@@ -106,6 +106,7 @@ public class PlayerBehavior : MonoBehaviour
             obj.transform.parent = canPosition.transform;
         }
 
+        //TODO / TEMPS TAKE DMG
         if (Input.GetKeyDown(KeyCode.J))
         {
             TakeHit(playerDmg);
@@ -124,6 +125,7 @@ public class PlayerBehavior : MonoBehaviour
         OnStateFixedUpdate();
     }
 
+    #region ON STATE ENTER
     //CALLED WHEN ENTERING NEW STATE
     void OnStateEnter()
     {
@@ -178,17 +180,7 @@ public class PlayerBehavior : MonoBehaviour
                 break;
         }
     }
-
-    //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
-    IEnumerator waitAnimationEnd(float time, PlayerState targetState)
-    {
-        yield return new WaitForSeconds(time);
-        if (!isHoldingCan)
-        {
-            animator.SetFloat("Can", 0);
-        }
-        TransitionToState(targetState);
-    }
+    #endregion
 
     //STATE MACHINE FIXED UPDATE
     void OnStateFixedUpdate()
@@ -219,6 +211,7 @@ public class PlayerBehavior : MonoBehaviour
 
     }
 
+    #region ON STATE UPDATE
     //STATE MACHINE UPDATE
     void OnStateUpdate()
     {
@@ -315,7 +308,9 @@ public class PlayerBehavior : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
+    #region ON STATE LEAVE
     //CALLED ON LEAVING A STATE
     void OnStateLeave()
     {
@@ -342,6 +337,7 @@ public class PlayerBehavior : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
     //CALLED TO TRANSITION BETWEEN TWO STATES
     void TransitionToState(PlayerState newState)
@@ -410,5 +406,17 @@ public class PlayerBehavior : MonoBehaviour
         invulnerability = true;
         yield return new WaitForSeconds(0.5f);
         invulnerability = false;
+    }
+
+
+    //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
+    IEnumerator waitAnimationEnd(float time, PlayerState targetState)
+    {
+        yield return new WaitForSeconds(time);
+        if (!isHoldingCan)
+        {
+            animator.SetFloat("Can", 0);
+        }
+        TransitionToState(targetState);
     }
 }
