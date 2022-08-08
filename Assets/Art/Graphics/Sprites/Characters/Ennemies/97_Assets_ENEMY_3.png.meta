@@ -66,7 +66,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 8192
     resizeAlgorithm: 1
     textureFormat: 4
     textureCompression: 1
@@ -105,6 +105,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -1514,7 +1526,7 @@ TextureImporter:
     nameFileIdTable:
       97_Assets_ENEMY_3_37: -222043419
       97_Assets_ENEMY_3_55: 1079125055
-      97_Assets_ENEMY_3_40: 303581718
+      97_Assets_ENEMY_3_23: -1731977711
       97_Assets_ENEMY_3_62: 1982529363
       97_Assets_ENEMY_3_27: 2069571801
       97_Assets_ENEMY_3_3: -1461814795
@@ -1567,14 +1579,14 @@ TextureImporter:
       97_Assets_ENEMY_3_8: -1145006690
       97_Assets_ENEMY_3_1: -1786007949
       97_Assets_ENEMY_3_18: 1351680472
-      97_Assets_ENEMY_3_39: 1385593616
-      97_Assets_ENEMY_3_25: 1895148427
-      97_Assets_ENEMY_3_20: -290776031
-      97_Assets_ENEMY_3_11: 609090765
-      97_Assets_ENEMY_3_23: -1731977711
-      97_Assets_ENEMY_3_22: -2055748026
       97_Assets_ENEMY_3_14: 1533370896
+      97_Assets_ENEMY_3_25: 1895148427
+      97_Assets_ENEMY_3_39: 1385593616
+      97_Assets_ENEMY_3_11: 609090765
+      97_Assets_ENEMY_3_20: -290776031
+      97_Assets_ENEMY_3_22: -2055748026
       97_Assets_ENEMY_3_58: -584462790
+      97_Assets_ENEMY_3_40: 303581718
       97_Assets_ENEMY_3_17: 1189744656
       97_Assets_ENEMY_3_0: -1683402879
       97_Assets_ENEMY_3_43: 422450855
