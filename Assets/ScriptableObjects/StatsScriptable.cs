@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/EntitieStats", order = 1)]
 public class StatsScriptable : ScriptableObject
 {
-    public float life;
+    public int life;
     public float speed;
     public float runningSpeed;
     public int dmg;

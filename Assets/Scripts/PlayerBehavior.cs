@@ -10,6 +10,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] GameObject canPosition;
     [SerializeField] GameObject hitPosition;
     [SerializeField] GameObject canPrefab;
+    [SerializeField] GameObject healthBar;
 
     //STATE MACHINE
     public enum PlayerState
@@ -28,7 +29,7 @@ public class PlayerBehavior : MonoBehaviour
     Animator animator;
     Rigidbody rb;
     Transform graphics;
-
+    HealthBar _healthBar;
 
     //CONTROL
     float jumpTimer;
@@ -38,7 +39,7 @@ public class PlayerBehavior : MonoBehaviour
     bool invulnerability;
 
     //STATS
-    float playerlife;
+    int playerlife;
     int playerDmg;
     float walkingSpeed;
     float runningSpeed;
@@ -69,6 +70,10 @@ public class PlayerBehavior : MonoBehaviour
         graphics = this.gameObject.transform.GetChild(0).transform;
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
+
+        //SET UI
+        _healthBar = healthBar.GetComponent<HealthBar>();
+        _healthBar.SetMaxHealth(playerlife);
     }
 
     private void Update()
@@ -384,6 +389,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 StartCoroutine(startInvulnerabiliy());
                 playerlife -= dmgTaken;
+                _healthBar.SetHealth(playerlife);
             }
             else
             {
