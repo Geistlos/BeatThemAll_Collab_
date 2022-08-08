@@ -106,6 +106,11 @@ public class PlayerBehavior : MonoBehaviour
             obj.transform.parent = canPosition.transform;
         }
 
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            TakeHit(playerDmg);
+        }
+
         //GESTION DE LA HAUTEUR DU JOUEUR POUR QU'IL RETOUCHE LE SOL
         if (!onTheGround)
         {
@@ -403,7 +408,7 @@ public class PlayerBehavior : MonoBehaviour
     IEnumerator startInvulnerabiliy()
     {
         invulnerability = true;
-        yield return new WaitForSeconds(5.5f);
+        yield return new WaitForSeconds(0.5f);
         invulnerability = false;
     }
 }
