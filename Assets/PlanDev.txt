@@ -12,5 +12,7 @@ Player B
 
 Environment
 
+Camera D
+
 UI B
 FX
