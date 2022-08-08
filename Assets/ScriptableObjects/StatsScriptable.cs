@@ -6,7 +6,7 @@ public class StatsScriptable : ScriptableObject
     public float life;
     public float speed;
     public float runningSpeed;
-    public float dmg;
+    public int dmg;
     public float attackSpeed;
     public RuntimeAnimatorController animator;
 

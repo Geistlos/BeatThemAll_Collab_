@@ -8,6 +8,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] AnimationCurve curve;
     [SerializeField] StatsScriptable stats;
     [SerializeField] GameObject canPosition;
+    [SerializeField] GameObject hitPosition;
     [SerializeField] GameObject canPrefab;
 
     //STATE MACHINE
@@ -34,10 +35,11 @@ public class PlayerBehavior : MonoBehaviour
     bool flipped;
     bool isHoldingCan;
     bool onTheGround = true;
+    bool invulnerability;
 
     //STATS
-    float life;
-    float dmg;
+    float playerlife;
+    int playerDmg;
     float walkingSpeed;
     float runningSpeed;
     float airTime;
@@ -54,8 +56,8 @@ public class PlayerBehavior : MonoBehaviour
     private void Start()
     {
         //GET STATS
-        life = stats.life;
-        dmg = stats.dmg;
+        playerlife = stats.life;
+        playerDmg = stats.dmg;
         walkingSpeed = stats.speed;
         runningSpeed = stats.runningSpeed;
         airTime = stats.airTime;
@@ -64,7 +66,7 @@ public class PlayerBehavior : MonoBehaviour
         attackDelay = stats.attackSpeed;
 
         //LINKS TO GAMEOBJECT / COMPONENTS
-        graphics = this.gameObject.transform.GetChild(0);
+        graphics = this.gameObject.transform.GetChild(0).transform;
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
     }
@@ -77,12 +79,12 @@ public class PlayerBehavior : MonoBehaviour
         //PLAYER DIRECTION
         if (dirInput.x < 0 && !flipped)
         {
-            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            transform.eulerAngles = new Vector3(0, 180, 0);
             flipped = true;
         }
         else if (dirInput.x > 0 && flipped)
         {
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            transform.eulerAngles = new Vector3(0, 0, 0);
             flipped = false;
         }
 
@@ -157,6 +159,7 @@ public class PlayerBehavior : MonoBehaviour
                 {
                     animator.SetFloat("Can", randomAtk[Random.Range(0, 4)]);
                 }
+                Attack();
                 //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
                 StartCoroutine(waitAnimationEnd(attackDelay, PlayerState.IDLE));
                 break;
@@ -342,7 +345,6 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (jumpTimer < airTime)
         {
-            Debug.Log("JumpHeight :" + jumpTimer);
             jumpTimer += Time.deltaTime;
             float y = curve.Evaluate(jumpTimer / airTime);
             graphics.localPosition = new Vector3(graphics.localPosition.x, y * jumpHeight, graphics.localPosition.z);
@@ -353,5 +355,48 @@ public class PlayerBehavior : MonoBehaviour
             jumpTimer = 0f;
             TransitionToState(PlayerState.IDLE);
         }
+    }
+
+    //PLAYER ATTACK
+    public void Attack()
+    {
+        Collider[] Colliders;
+
+        Colliders = Physics.OverlapSphere(hitPosition.transform.position, .3f);
+
+        foreach (Collider collider in Colliders)
+        {
+            if (collider.tag == "Enemy")
+            {
+                Debug.Log(collider.gameObject.name + " HIT");
+                collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
+            }
+        }
+    }
+
+    //PLAYER TAKE DMG
+    public void TakeHit(int dmgTaken)
+    {
+        if (!invulnerability)
+        {
+            if (playerlife > dmgTaken)
+            {
+                StartCoroutine(startInvulnerabiliy());
+                playerlife -= dmgTaken;
+            }
+            else
+            {
+                TransitionToState(PlayerState.DEATH);
+                Debug.Log("You Died");
+            }
+        }
+    }
+
+    //TIMER D'INVULNERABILITE QUAND LE JOUEUR SE FAIT TAPER
+    IEnumerator startInvulnerabiliy()
+    {
+        invulnerability = true;
+        yield return new WaitForSeconds(5.5f);
+        invulnerability = false;
     }
 }
