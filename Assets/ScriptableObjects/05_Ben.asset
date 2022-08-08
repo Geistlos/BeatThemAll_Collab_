@@ -15,7 +15,7 @@ MonoBehaviour:
   life: 50
   speed: 7
   runningSpeed: 14
-  dmg: 5
+  dmg: 1
   attackSpeed: 0.5
   animator: {fileID: 0}
   airTime: 0.7
