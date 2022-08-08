@@ -27,7 +27,7 @@ public class PlayerBehavior : MonoBehaviour
 
     //COMPONENTS / GAMEOBJECTS
     Animator animator;
-    Rigidbody rb;
+    Rigidbody2D rb;
     Transform graphics;
     HealthBar _healthBar;
 
@@ -69,10 +69,10 @@ public class PlayerBehavior : MonoBehaviour
         //LINKS TO GAMEOBJECT / COMPONENTS
         graphics = this.gameObject.transform.GetChild(0).transform;
         animator = GetComponentInChildren<Animator>();
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
 
         //SET UI
-        _healthBar = healthBar.GetComponent<HealthBar>();
+        _healthBar = healthBar.GetComponentInChildren<HealthBar>();
         _healthBar.SetMaxHealth(playerlife);
     }
 
