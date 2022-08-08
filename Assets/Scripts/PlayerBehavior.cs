@@ -144,6 +144,7 @@ public class PlayerBehavior : MonoBehaviour
                     isHoldingCan = false;
                     canPosition.GetComponentInChildren<Can>().ThrowCan(flipped);
                 }
+                Attack();
                 //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
                 StartCoroutine(waitAnimationEnd(attackDelay, PlayerState.IDLE));
                 break;
@@ -369,7 +370,7 @@ public class PlayerBehavior : MonoBehaviour
             if (collider.tag == "Enemy")
             {
                 Debug.Log(collider.gameObject.name + " HIT");
-                collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
+                //collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
             }
         }
     }
