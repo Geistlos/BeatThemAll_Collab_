@@ -72,7 +72,9 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (currentTarget != null && currentState != EnemyState.Dead)
         {
-            dirMove = currentTarget.position - transform.position;
+            Vector3 DirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 0.5f,0f);
+
+            dirMove = DirMoveFixed - transform.position;
 
             if (dirMove != Vector2.zero) { if (dirMove.x > 0) sr.flipX = false; else sr.flipX = true; }
         }
