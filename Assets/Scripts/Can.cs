@@ -9,20 +9,28 @@ public class Can : MonoBehaviour
 
     //STATS
     float flightSpeed = 20f;
-    float throwAngle = 0.20f;
+    float fallSpeed = 1f;
+    //float throwAngle = 0.20f;
     int numberOfBlinks = 5;
     float delayBetweenBlinks = .2f;
+    float delayBeforeBlink = 2f;
 
     //CONTROL
     bool onTheGround;
-    bool carried;
+    public bool carried;
     float targetY = -Mathf.Infinity;
     float offSetY = 1.5f;
+    int startY;
+    public bool droped;
 
     [SerializeField] AnimationCurve curve;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        if (droped)
+        {
+            ThrowCan(false);
+        }
     }
 
     private void Update()
@@ -30,53 +38,57 @@ public class Can : MonoBehaviour
         //WHEN THE CAN HIT THE GROUND
         if (!carried && !onTheGround && transform.position.y < targetY)
         {
-            rb.velocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.FreezePosition;
-            onTheGround = true;
-            transform.parent = null;
-            Debug.Log("Drop Can");
-            StartCoroutine(BlinkGameObject(this.gameObject, numberOfBlinks, delayBetweenBlinks));
+            hitGround();
         }
+    }
 
+    void hitGround()
+    {
+        rb.velocity = Vector3.zero;
+        rb.constraints = RigidbodyConstraints.FreezePosition;
+        onTheGround = true;
+        transform.parent = null;
+        StartCoroutine(BlinkGameObject(this.gameObject, numberOfBlinks, delayBetweenBlinks, delayBeforeBlink));
     }
 
     //THROW CAN, CALLED BY THE PLAYER. GET ORIENTATION FROM IT
-    public void ThrowCan( bool flipped)
+    public void ThrowCan(bool flipped)
     {
-        Debug.Log("Throw Can");
         rb.constraints = RigidbodyConstraints.None;
         carried = false;
-        targetY = transform.position.y - offSetY;
 
-        if (!flipped)
+
+        if (!droped)
         {
-            rb.velocity = new Vector3(.85f, -.1f, 0) * flightSpeed;
+            targetY = transform.position.y - offSetY;
+            if (!flipped)
+            {
+                rb.velocity = new Vector3(.85f, -.1f, 0) * flightSpeed;
+            }
+            else
+            {
+                rb.velocity = new Vector3(-.85f, -.1f, 0) * flightSpeed;
+            }
         }
-        else
+        else if (droped)
         {
-            rb.velocity = new Vector3(-.85f, -.1f, 0) * flightSpeed;
+            targetY = 0;
+            rb.velocity = Vector3.down * fallSpeed;
         }
     }
 
     //BLINK
-    public IEnumerator BlinkGameObject(GameObject gameObject, int numBlinks, float seconds)
+    public IEnumerator BlinkGameObject(GameObject gameObject, int numBlinks, float seconds, float delayBeforeBlink)
     {
-        yield return new WaitForSeconds(seconds);
-        // In this method it is assumed that your game object has a SpriteRenderer component attached to it
+        yield return new WaitForSeconds(2f);
+
         SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
-        // disable animation if any animation is attached to the game object
-        //      Animator animator = gameObject.GetComponent<Animator>();
-        //      animator.enabled = false; // stop animation for a while
+
         for (int i = 0; i < numBlinks * 2; i++)
         {
-            //toggle renderer
             renderer.enabled = !renderer.enabled;
-            //wait for a bit
             yield return new WaitForSeconds(seconds);
         }
-        //make sure renderer is enabled when we exit
-        Destroy(gameObject);    
-        //renderer.enabled = true;
-        //    animator.enabled = true; // enable animation again, if it was disabled before
+        Destroy(gameObject);
     }
 }
