@@ -19,4 +19,6 @@ public class StatsScriptable : ScriptableObject
     public float invulnerabilityDuration;
     public int numberOfBlinks;
     public float delayBetweenBlinks;
+    public int healthPerCan;
+    public int energyPerCan;
 }

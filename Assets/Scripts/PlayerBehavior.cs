@@ -52,6 +52,8 @@ public class PlayerBehavior : MonoBehaviour
     RuntimeAnimatorController _animator;
     int numberOfBlinks;
     float delayBetweenBlinks;
+    int healthPerCan;
+    int energyPerCan;
 
     //INPUTS
     Vector2 dirInput;
@@ -75,6 +77,8 @@ public class PlayerBehavior : MonoBehaviour
         _animator = stats.animator;
         numberOfBlinks = stats.numberOfBlinks;
         delayBetweenBlinks = stats.delayBetweenBlinks;
+        healthPerCan = stats.healthPerCan;
+        energyPerCan = stats.energyPerCan;
 
         transform.GetComponentInChildren<Animator>().runtimeAnimatorController = _animator;
 
@@ -398,6 +402,44 @@ public class PlayerBehavior : MonoBehaviour
                 collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
             }
         }
+    }
+
+
+    public bool IsPlayerHoldingACan()
+    {
+        if (isHoldingCan)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void PickUpCan()
+    {
+        if (isHoldingCan)
+        {
+            return;
+        }
+        Debug.Log("Pick up can");
+        isHoldingCan = true;
+        animator.SetFloat("Can", 1);
+        canPosition.SetActive(true);
+        var obj = Instantiate(canPrefab, canPosition.transform.position, Quaternion.identity);
+        obj.transform.parent = canPosition.transform;
+        obj.GetComponent<Can>().randomColor = false;
+    }
+
+    public void GetEnergy()
+    {
+        Debug.Log("Get Energy");
+    }
+
+    public void GetHealth()
+    {
+        Debug.Log("GetHealth");
+        playerlife += healthPerCan;
     }
 
     //PLAYER TAKE DMG

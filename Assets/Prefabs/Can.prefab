@@ -46,7 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab156180181da24ebb1e7b3bb2e2436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipped: 0
+  redCan: {fileID: 72526216, guid: 10f9c0e6c7e764088bb060e35bad1410, type: 3}
+  blueCan: {fileID: 882064541, guid: 10f9c0e6c7e764088bb060e35bad1410, type: 3}
+  greenCan: {fileID: 1790339288, guid: 10f9c0e6c7e764088bb060e35bad1410, type: 3}
+  carried: 0
+  droped: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -135,7 +139,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1448975107
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 72526216, guid: 10f9c0e6c7e764088bb060e35bad1410, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
