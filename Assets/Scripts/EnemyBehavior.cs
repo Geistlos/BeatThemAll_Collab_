@@ -17,6 +17,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] Transform player2;
 
     Vector2 dirMove;
+    Vector3 dirMoveFixed;
     bool attackSwitch;
     float health;
     float speed;
@@ -72,9 +73,9 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (currentTarget != null && currentState != EnemyState.Dead)
         {
-            Vector3 DirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 0f,0f);
+            dirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 1f,0f);
 
-            dirMove = DirMoveFixed - transform.position;
+            dirMove = dirMoveFixed - transform.position;
 
             if (dirMove != Vector2.zero) { if (dirMove.x > 0) sr.flipX = false; else sr.flipX = true; }
         }
@@ -102,7 +103,7 @@ public class EnemyBehavior : MonoBehaviour
                     timer += Time.deltaTime;
                     if (timer > statsScriptable.attackSpeed) TransitionToState(EnemyState.Attack);
 
-                    if (Vector2.Distance(transform.position, currentTarget.position) > .5f) TransitionToState(EnemyState.Walk);
+                    if (Vector2.Distance(transform.position, dirMoveFixed) > 1.2f) TransitionToState(EnemyState.Walk);
                 }
 
                 if (currentTarget == null)
@@ -119,10 +120,10 @@ public class EnemyBehavior : MonoBehaviour
                     return;
                 }
 
-                if (Vector2.Distance(transform.position, currentTarget.position) < 1f) TransitionToState(EnemyState.Idle);
+                if (Vector2.Distance(transform.position, dirMoveFixed) < 1f) TransitionToState(EnemyState.Idle);
 
 
-                if (Vector2.Distance(transform.position, currentTarget.position) > 5f)
+                if (Vector2.Distance(transform.position, dirMoveFixed) > 5f)
                 {
                     currentTarget = null;
                     TransitionToState(EnemyState.Idle);
