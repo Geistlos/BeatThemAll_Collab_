@@ -50,7 +50,6 @@ public class PlayerBehavior : MonoBehaviour
     float invulnerabilityDuration;
     float radiusHitbox;
     RuntimeAnimatorController _animator;
-
     int numberOfBlinks;
     float delayBetweenBlinks;
 
@@ -91,16 +90,15 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Update()
     {
-
         dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         //PLAYER DIRECTION
-        if (dirInput.x < 0 && !flipped)
+        if (dirInput.x < 0 && !flipped && currentState != PlayerState.DEATH)
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
             flipped = true;
         }
-        else if (dirInput.x > 0 && flipped)
+        else if (dirInput.x > 0 && flipped && currentState != PlayerState.DEATH)
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             flipped = false;
@@ -119,11 +117,19 @@ public class PlayerBehavior : MonoBehaviour
             obj.transform.parent = canPosition.transform;
         }
 
-        //TODO / TEMPS TAKE DMG
+        //TODO / GENERATE CAN
         if (Input.GetKeyDown(KeyCode.J))
         {
-            TakeHit(playerDmg);
+            var playerX = transform.position.x;
+            var obj = Instantiate(canPrefab, new Vector3(Random.Range(playerX - 10, playerX + 10), 15, 0), Quaternion.identity);
+            obj.GetComponent<Can>().droped = true;
         }
+
+        //TODO / TEMPS TAKE DMG
+        /*if (Input.GetKeyDown(KeyCode.J))
+        {
+            TakeHit(playerDmg);
+        }*/
 
         //GESTION DE LA HAUTEUR DU JOUEUR POUR QU'IL RETOUCHE LE SOL
         if (!onTheGround)
@@ -405,7 +411,7 @@ public class PlayerBehavior : MonoBehaviour
             if (playerlife > 0)
             {
                 StartCoroutine(startInvulnerabiliy());
-                               
+
                 Debug.Log("New Life= " + playerlife);
             }
             else
@@ -442,21 +448,16 @@ public class PlayerBehavior : MonoBehaviour
     public IEnumerator BlinkGameObject(Transform transform, int numBlinks, float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        // In this method it is assumed that your game object has a SpriteRenderer component attached to it
+
         SpriteRenderer renderer = transform.GetComponent<SpriteRenderer>();
-        // disable animation if any animation is attached to the game object
-        //      Animator animator = gameObject.GetComponent<Animator>();
-        //      animator.enabled = false; // stop animation for a while
+
         for (int i = 0; i < numBlinks * 2; i++)
         {
-            //toggle renderer
             renderer.enabled = !renderer.enabled;
-            //wait for a bit
+
             yield return new WaitForSeconds(seconds);
         }
-        //make sure renderer is enabled when we exit
-        //Destroy(gameObject);
+
         renderer.enabled = true;
-        //    animator.enabled = true; // enable animation again, if it was disabled before
     }
 }
