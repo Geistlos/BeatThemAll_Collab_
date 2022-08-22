@@ -72,7 +72,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (currentTarget != null && currentState != EnemyState.Dead)
         {
-            Vector3 DirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 0.5f,0f);
+            Vector3 DirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 0f,0f);
 
             dirMove = DirMoveFixed - transform.position;
 
@@ -102,7 +102,7 @@ public class EnemyBehavior : MonoBehaviour
                     timer += Time.deltaTime;
                     if (timer > statsScriptable.attackSpeed) TransitionToState(EnemyState.Attack);
 
-                    if (Vector2.Distance(transform.position, currentTarget.position) > 1f) TransitionToState(EnemyState.Walk);
+                    if (Vector2.Distance(transform.position, currentTarget.position) > .5f) TransitionToState(EnemyState.Walk);
                 }
 
                 if (currentTarget == null)
@@ -119,7 +119,7 @@ public class EnemyBehavior : MonoBehaviour
                     return;
                 }
 
-                if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f) TransitionToState(EnemyState.Idle);
+                if (Vector2.Distance(transform.position, currentTarget.position) < 1f) TransitionToState(EnemyState.Idle);
 
 
                 if (Vector2.Distance(transform.position, currentTarget.position) > 5f)
