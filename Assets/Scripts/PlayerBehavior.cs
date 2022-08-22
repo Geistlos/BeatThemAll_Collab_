@@ -51,8 +51,8 @@ public class PlayerBehavior : MonoBehaviour
     float radiusHitbox;
     RuntimeAnimatorController _animator;
 
-    int numberOfBlinks = 5;
-    float delayBetweenBlinks = .2f;
+    int numberOfBlinks;
+    float delayBetweenBlinks;
 
     //INPUTS
     Vector2 dirInput;
@@ -74,6 +74,8 @@ public class PlayerBehavior : MonoBehaviour
         invulnerabilityDuration = stats.invulnerabilityDuration;
         radiusHitbox = stats.radiusHitbox;
         _animator = stats.animator;
+        numberOfBlinks = stats.numberOfBlinks;
+        delayBetweenBlinks = stats.delayBetweenBlinks;
 
         transform.GetComponentInChildren<Animator>().runtimeAnimatorController = _animator;
 
@@ -419,7 +421,7 @@ public class PlayerBehavior : MonoBehaviour
     IEnumerator startInvulnerabiliy()
     {
         invulnerability = true;
-        StartCoroutine(BlinkGameObject(this.gameObject, numberOfBlinks, delayBetweenBlinks));
+        StartCoroutine(BlinkGameObject(graphics, numberOfBlinks, delayBetweenBlinks));
         yield return new WaitForSeconds(invulnerabilityDuration);
         invulnerability = false;
     }
@@ -437,11 +439,11 @@ public class PlayerBehavior : MonoBehaviour
     }
 
     //BLINK
-    public IEnumerator BlinkGameObject(GameObject gameObject, int numBlinks, float seconds)
+    public IEnumerator BlinkGameObject(Transform transform, int numBlinks, float seconds)
     {
         yield return new WaitForSeconds(seconds);
         // In this method it is assumed that your game object has a SpriteRenderer component attached to it
-        SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer renderer = transform.GetComponent<SpriteRenderer>();
         // disable animation if any animation is attached to the game object
         //      Animator animator = gameObject.GetComponent<Animator>();
         //      animator.enabled = false; // stop animation for a while

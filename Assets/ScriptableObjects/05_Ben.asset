@@ -23,3 +23,5 @@ MonoBehaviour:
   jumpHeight: 1.5
   jumpingSpeed: 7
   invulnerabilityDuration: 0.5
+  numberOfBlinks: 5
+  delayBetweenBlinks: 0.1
