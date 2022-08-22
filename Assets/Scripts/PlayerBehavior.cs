@@ -11,6 +11,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] GameObject hitPosition;
     [SerializeField] GameObject canPrefab;
     [SerializeField] GameObject healthBarCanevas;
+    [SerializeField] GameObject shadow;
 
     //STATE MACHINE
     public enum PlayerState
@@ -378,8 +379,10 @@ public class PlayerBehavior : MonoBehaviour
         if (jumpTimer < airTime)
         {
             jumpTimer += Time.deltaTime;
-            float y = curve.Evaluate(jumpTimer / airTime);
+            var y = curve.Evaluate(jumpTimer / airTime);
             graphics.localPosition = new Vector3(graphics.localPosition.x, y * jumpHeight, graphics.localPosition.z);
+            var shadowScale = 1 - y;
+            shadow.transform.localScale = new Vector3(shadowScale, shadowScale / 2, shadowScale);
         }
         else
         {

@@ -10,6 +10,7 @@ public class Can : MonoBehaviour
     [SerializeField] Sprite redCan;
     [SerializeField] Sprite blueCan;
     [SerializeField] Sprite greenCan;
+    [SerializeField] GameObject shadow;
 
     //STATS
     float flightSpeed = 20f;
@@ -80,6 +81,13 @@ public class Can : MonoBehaviour
         {
             pickUpCan();
         }
+
+        //SHADOW
+        /*if (transform.position.y <= targetY + 1)
+        {
+            Debug.Log("Shadow Scale = " + (transform.position.y - targetY));
+            shadow.transform.localScale = new Vector3(transform.position.y - targetY, (transform.position.x - targetY) / 2, 0);
+        }*/
     }
 
     void pickUpCan()
@@ -132,6 +140,7 @@ public class Can : MonoBehaviour
         if (!droped)
         {
             targetY = transform.position.y - offSetY;
+
             if (!flipped)
             {
                 rb.velocity = new Vector3(.85f, -.1f, 0) * flightSpeed;
