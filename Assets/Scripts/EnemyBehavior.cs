@@ -72,7 +72,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (currentTarget != null && currentState != EnemyState.Dead)
         {
-            Vector3 DirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 0f,0f);
+            Vector3 DirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 0.75f,0f);
 
             dirMove = DirMoveFixed - transform.position;
 
