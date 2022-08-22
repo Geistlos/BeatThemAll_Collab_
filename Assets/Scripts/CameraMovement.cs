@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] float camSpeed;
-
-    [SerializeField] Vector3 offset = Vector3.zero;
-
     Vector2 cameraDimension;
-
+    [SerializeField] float camSpeed;
+    [SerializeField] Vector3 offset = Vector3.zero;
     [SerializeField] Camera cam;
-
     [SerializeField] Transform target;
-
     [SerializeField] BoxCollider2D cameraBounds;
-
-    bool follow = true;
+    [SerializeField] bool follow = true;
 
     void Awake()
     {
@@ -25,15 +19,9 @@ public class CameraMovement : MonoBehaviour
         cameraDimension.x = cam.orthographicSize * cam.aspect;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        if (!follow) return;
         Vector3 followPosition = new Vector3(target.position.x, 3f, 0f) + offset;
 
         float minX = cameraBounds.transform.position.x - cameraBounds.size.x / 2 + cameraDimension.x;
