@@ -127,7 +127,7 @@ public class Can : MonoBehaviour
     {
         rb.constraints = RigidbodyConstraints.None;
         carried = false;
-
+        transform.parent = null;
 
         if (!droped)
         {

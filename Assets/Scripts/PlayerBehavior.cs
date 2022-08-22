@@ -178,6 +178,7 @@ public class PlayerBehavior : MonoBehaviour
                 {
                     isHoldingCan = false;
                     canPosition.GetComponentInChildren<Can>().ThrowCan(flipped);
+                    //canPosition.transform.parent = null;
                 }
                 Attack();
                 //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
