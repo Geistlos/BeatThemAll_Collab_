@@ -9,8 +9,8 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] Vector3 offset = Vector3.zero;
     [SerializeField] Camera cam;
     [SerializeField] Transform target;
-    [SerializeField] BoxCollider2D cameraBounds;
-    [SerializeField] bool follow = true;
+    [SerializeField] public BoxCollider2D cameraBounds;
+    [SerializeField] public bool follow;
 
     void Awake()
     {

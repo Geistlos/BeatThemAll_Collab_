@@ -6,15 +6,15 @@ public class EnemyBehavior : MonoBehaviour
 {
     public enum EnemyState { Idle, Walk, Attack, Dead, Hurted}
     public EnemyState currentState;
-    [SerializeField] StatsScriptable statsScriptable;
+    [SerializeField] public StatsScriptable statsScriptable;
 
     Rigidbody2D rb2d;
     SpriteRenderer sr;
     Animator animator;
 
     Transform currentTarget;
-    [SerializeField] Transform player1;
-    [SerializeField] Transform player2;
+    Transform player1;
+    Transform player2;
 
     Vector2 dirMove;
     Vector3 dirMoveFixed;
@@ -33,6 +33,8 @@ public class EnemyBehavior : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         health = statsScriptable.life;
         speed = statsScriptable.speed;
+        player1 = GameManager.Instance.player1.transform;
+        if(GameManager.Instance.player2 != null) player2 = GameManager.Instance.player2.transform;
         TransitionToState(EnemyState.Idle);
     }
     
@@ -58,6 +60,7 @@ public class EnemyBehavior : MonoBehaviour
             case EnemyState.Dead:
                 animator.SetTrigger("DeathTrigger");
                 timer = 0f;
+                Level1Manager.Instance.killCount++;
                 break;
             case EnemyState.Hurted:
                 animator.SetTrigger("HurtTrigger");
@@ -112,7 +115,10 @@ public class EnemyBehavior : MonoBehaviour
                 {
                     if (Vector2.Distance(transform.position, player1.position) < 5f) currentTarget = player1;
 
+                    if(player2 != null)
+                    {
                     if (Vector2.Distance(transform.position, player2.position) < 5f) currentTarget = player2;
+                    }
                 }
                 break;
             case EnemyState.Walk:

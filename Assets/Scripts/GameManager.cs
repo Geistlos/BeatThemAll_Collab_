@@ -12,8 +12,4 @@ public class GameManager : MonoBehaviour
 
     public GameObject player1;
     public GameObject player2;
-
-
-
-
 }
