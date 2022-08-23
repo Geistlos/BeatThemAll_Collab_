@@ -4397,6 +4397,34 @@ PrefabInstance:
       propertyPath: healthBarCanevas
       value: 
       objectReference: {fileID: 1317801945}
+    - target: {fileID: 2587276954541782115, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+      propertyPath: FxPrefab.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2587276954541782115, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+      propertyPath: FxPrefab.Array.data[0]
+      value: 
+      objectReference: {fileID: 8989435225604253837, guid: 4578b4c6413a25e46a5253037e573cd7, type: 3}
+    - target: {fileID: 2587276954541782115, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+      propertyPath: FxPrefab.Array.data[1]
+      value: 
+      objectReference: {fileID: 6643296667364999446, guid: e6117b86199b9f1448dc8e353d92d723, type: 3}
+    - target: {fileID: 2587276954541782115, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+      propertyPath: FxPrefab.Array.data[2]
+      value: 
+      objectReference: {fileID: 3541669789660538695, guid: 81fb3d39f84bd9148b79050348edf869, type: 3}
+    - target: {fileID: 2587276954541782115, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+      propertyPath: FxPrefab.Array.data[3]
+      value: 
+      objectReference: {fileID: 6270326689091883621, guid: 88d0b64ccb39e9143afc63a2cb22f0ae, type: 3}
+    - target: {fileID: 2587276954541782115, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+      propertyPath: FxPrefab.Array.data[4]
+      value: 
+      objectReference: {fileID: 3189729036782260549, guid: a0df8e2387c954443a54bb073426bee0, type: 3}
+    - target: {fileID: 2587276954541782115, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
+      propertyPath: FxPrefab.Array.data[5]
+      value: 
+      objectReference: {fileID: 5007418432769548466, guid: d336f7808a3ab0045b6a52c34c1fc984, type: 3}
     - target: {fileID: 2587276954541782116, guid: 2906a3b6cf5ecbd4bb2c98cff8887c6b, type: 3}
       propertyPath: m_RootOrder
       value: 1

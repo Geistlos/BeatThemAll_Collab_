@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6ba53fc634b3a4aaabfb17b6b05d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayer: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -87,7 +88,16 @@ MonoBehaviour:
   canPrefab: {fileID: 4512796953858664344, guid: 99a11984e806b264f859f9eb6c964f0c, type: 3}
   healthBarCanevas: {fileID: 0}
   energyBarCanevas: {fileID: 0}
+  scoreUI: {fileID: 0}
+  highestScoreUI: {fileID: 0}
   shadow: {fileID: 9110797586668146871}
+  FxPrefab:
+  - {fileID: 8989435225604253837, guid: 4578b4c6413a25e46a5253037e573cd7, type: 3}
+  - {fileID: 6643296667364999446, guid: e6117b86199b9f1448dc8e353d92d723, type: 3}
+  - {fileID: 3541669789660538695, guid: 81fb3d39f84bd9148b79050348edf869, type: 3}
+  - {fileID: 6270326689091883621, guid: 88d0b64ccb39e9143afc63a2cb22f0ae, type: 3}
+  - {fileID: 3189729036782260549, guid: a0df8e2387c954443a54bb073426bee0, type: 3}
+  - {fileID: 5007418432769548466, guid: d336f7808a3ab0045b6a52c34c1fc984, type: 3}
   currentState: 0
 --- !u!50 &2069426172080284551
 Rigidbody2D:
@@ -232,7 +242,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1448975107
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 2043441732, guid: cfa859c6038404e8e856360e6e726c51, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -369,7 +379,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9110797586668146871}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.009, y: -0.807, z: 0}
+  m_LocalPosition: {x: 0.009, y: -0.807, z: 1}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -414,8 +424,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1448975107
-  m_SortingLayer: 3
+  m_SortingLayerID: 793380597
+  m_SortingLayer: 1
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 321d2ba1dd2fd4284a0c1e2d8b870941, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

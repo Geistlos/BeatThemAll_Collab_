@@ -27,6 +27,8 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] TMP_Text highestScoreUI;
     [SerializeField] GameObject shadow;
 
+    [SerializeField] List<GameObject> FxPrefab;
+
     //STATE MACHINE
     public enum PlayerState
     {

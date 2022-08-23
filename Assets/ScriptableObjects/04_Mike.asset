@@ -18,7 +18,7 @@ MonoBehaviour:
   runningSpeed: 20
   dmg: 1
   attackSpeed: 1
-  animator: {fileID: 0}
+  animator: {fileID: 9100000, guid: d6e786ab37899704fa723ba167918303, type: 2}
   radiusHitbox: 0.5
   energyPerAtk: 0.1
   airTime: 0.7
