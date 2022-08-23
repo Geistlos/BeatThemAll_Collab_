@@ -8,12 +8,18 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        highestScore = PlayerPrefs.GetInt("SavedScore");
+    }
+    private void Start()
+    {
+        
     }
 
     public GameObject player1;
     public GameObject player2;
 
-    public static int score;
+    int score;
+    public int highestScore;
     public void PlayerDied(int playerNumber)
     {
 
@@ -22,5 +28,9 @@ public class GameManager : MonoBehaviour
     public void SetScore(int playerScore)
     {
         score = playerScore;
+        if(score > highestScore)
+        {
+            PlayerPrefs.SetInt("SavedScore", score);
+        }
     }
 }

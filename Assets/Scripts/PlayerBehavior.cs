@@ -16,6 +16,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] GameObject healthBarCanevas;
     [SerializeField] GameObject energyBarCanevas;
     [SerializeField] TMP_Text scoreUI;
+    [SerializeField] TMP_Text highestScoreUI;
     [SerializeField] GameObject shadow;
 
     //STATE MACHINE
@@ -37,7 +38,7 @@ public class PlayerBehavior : MonoBehaviour
     Transform graphics;
     HealthBar _healthBar;
     EnergyBar _energyBar;
-    //ScoreUI _scoreUI;
+    
 
     //CONTROL
     float jumpTimer;
@@ -65,6 +66,7 @@ public class PlayerBehavior : MonoBehaviour
     int energyPerCan;
     float energyPetAtk;
     int playerScore;
+    int highestScore;
 
     //INPUTS
     Vector2 dirInput;
@@ -106,6 +108,8 @@ public class PlayerBehavior : MonoBehaviour
         _energyBar = energyBarCanevas.GetComponentInChildren<EnergyBar>();
         _energyBar.SetMaxEnergy(playerEnergy);
         playerEnergy = 0;
+        highestScore = GameManager.Instance.highestScore;
+        UpdateBestScoreUI();
         UpdateScoreUI();
     }
 
@@ -147,6 +151,11 @@ public class PlayerBehavior : MonoBehaviour
             var playerX = transform.position.x;
             var obj = Instantiate(canPrefab, new Vector3(Random.Range(playerX - 10, playerX + 10), 15, 0), Quaternion.identity);
             obj.GetComponent<Can>().droped = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Menu");
         }
 
         //TODO / TEMPS TAKE DMG
@@ -474,9 +483,14 @@ public class PlayerBehavior : MonoBehaviour
     //UPDATE SCORE ON THE UI
     private void UpdateScoreUI()
     {
-        scoreUI.text = "Score : " + playerScore;
+        scoreUI.text = "Score: " + playerScore;
         GameManager.Instance.SetScore(playerScore);
     }
+
+    void UpdateBestScoreUI() {
+        highestScoreUI.text = "Best score: " + highestScore;
+    }
+
 
     //INCREASE SCORE WHEN PLAYER PICKS A RECORD
     public void IncreaseScore(int score)
