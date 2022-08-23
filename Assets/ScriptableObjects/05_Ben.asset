@@ -24,7 +24,7 @@ MonoBehaviour:
   airTime: 0.7
   jumpHeight: 1.5
   jumpingSpeed: 7
-  invulnerabilityDuration: 0.5
+  invulnerabilityDuration: 0.1
   numberOfBlinks: 5
   delayBetweenBlinks: 0.1
   healthPerCan: 10

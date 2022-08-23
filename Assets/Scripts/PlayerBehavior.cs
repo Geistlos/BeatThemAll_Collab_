@@ -486,6 +486,7 @@ public class PlayerBehavior : MonoBehaviour
     //PLAYER TAKE DMG
     public void TakeHit(int dmgTaken)
     {
+        animator.SetTrigger("Hurt");
         if (!invulnerability)
         {
             playerLife -= dmgTaken;
@@ -493,13 +494,11 @@ public class PlayerBehavior : MonoBehaviour
             if (playerLife > 0)
             {
                 StartCoroutine(startInvulnerabiliy());
-
-                Debug.Log("New Life= " + playerLife);
             }
             else
             {
                 TransitionToState(PlayerState.DEATH);
-                Debug.Log("You Died");
+                animator.SetTrigger("Dead");
             }
 
         }
