@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Enemy_2
   m_EditorClassIdentifier: 
   life: 7
+  energy: 0
   speed: 2.7
   runningSpeed: 0
   dmg: 1
   attackSpeed: 1
   animator: {fileID: 9100000, guid: 43ff910f0b9cba74fbe1cf7181efb34a, type: 2}
   radiusHitbox: 0
+  energyPerAtk: 0
   airTime: 0
   jumpHeight: 0
   jumpingSpeed: 0

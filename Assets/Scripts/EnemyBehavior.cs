@@ -6,7 +6,7 @@ public class EnemyBehavior : MonoBehaviour
 {
     public enum EnemyState { Idle, Walk, Attack, Dead, Hurted}
     public EnemyState currentState;
-    [SerializeField] public StatsScriptable statsScriptable;
+    [SerializeField] StatsScriptable statsScriptable;
 
     Rigidbody2D rb2d;
     SpriteRenderer sr;

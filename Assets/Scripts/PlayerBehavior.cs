@@ -423,7 +423,6 @@ public class PlayerBehavior : MonoBehaviour
                 collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
                 playerEnergy += energyPetAtk;
                 _energyBar.SetEnergy(playerEnergy);
-                Debug.Log("HIT");
             }
         }
     }
