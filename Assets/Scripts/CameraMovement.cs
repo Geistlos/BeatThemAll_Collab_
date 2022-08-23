@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     Vector2 cameraDimension;
-    [SerializeField] float camSpeed;
     [SerializeField] Vector3 offset = Vector3.zero;
     [SerializeField] Camera cam;
     [SerializeField] Transform target;
@@ -29,6 +28,6 @@ public class CameraMovement : MonoBehaviour
         followPosition.x = Mathf.Clamp(followPosition.x, minX, maxX);
 
         Vector3 currentVelocity = Vector3.zero;
-        transform.position = Vector3.SmoothDamp(transform.position, followPosition, ref currentVelocity, Time.deltaTime * camSpeed);
+        transform.position = Vector3.SmoothDamp(transform.position, followPosition, ref currentVelocity, Time.deltaTime * 0);
     }
 }
