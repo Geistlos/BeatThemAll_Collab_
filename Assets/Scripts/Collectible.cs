@@ -40,8 +40,6 @@ public class Collectible : MonoBehaviour
         }
     }
 
-   
-
     //BLINK
     public IEnumerator BlinkGameObject(GameObject gameObject, int numBlinks, float seconds, float delayBeforeBlink)
     {

@@ -137,6 +137,7 @@ public class PlayerBehavior : MonoBehaviour
             canPosition.SetActive(true);
             var obj = Instantiate(canPrefab, canPosition.transform.position, Quaternion.identity);
             obj.transform.parent = canPosition.transform;
+            obj.GetComponent<Can>().carried = true;
         }
 
         //TODO / GENERATE CAN
@@ -452,6 +453,7 @@ public class PlayerBehavior : MonoBehaviour
         var obj = Instantiate(canPrefab, canPosition.transform.position, Quaternion.identity);
         obj.transform.parent = canPosition.transform;
         obj.GetComponent<Can>().randomColor = false;
+        obj.GetComponent<Can>().carried = true;
     }
 
     //GIVE PLAYER ENERGY WHEN PICKING UP A CAN

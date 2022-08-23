@@ -242,4 +242,15 @@ public class EnemyBehavior : MonoBehaviour
     {
         OnStateFixedUpdate();
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Can")
+        {
+            if (!collision.GetComponent<Can>().onTheGround && !collision.GetComponent<Can>().carried)
+            {
+                TakeDamage(10);
+            }
+        }
+    }
 }
