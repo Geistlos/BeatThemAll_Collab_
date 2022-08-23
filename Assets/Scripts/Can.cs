@@ -42,7 +42,7 @@ public class Can : MonoBehaviour
     {
         sr = transform.GetComponent<SpriteRenderer>();
         if (randomColor)
-            _canColor = (canColor)Random.Range(0, 2);
+            _canColor = (canColor)Random.Range(0, 3);
         else
         {
             _canColor = canColor.green;
@@ -77,7 +77,7 @@ public class Can : MonoBehaviour
         }
 
         //DETECTION PICK UP PLAYER
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetMouseButtonDown(1))
         {
             pickUpCan();
         }

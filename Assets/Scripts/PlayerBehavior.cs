@@ -11,6 +11,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] GameObject hitPosition;
     [SerializeField] GameObject canPrefab;
     [SerializeField] GameObject healthBarCanevas;
+    [SerializeField] GameObject energyBarCanevas;
     [SerializeField] GameObject shadow;
 
     //STATE MACHINE
@@ -31,6 +32,7 @@ public class PlayerBehavior : MonoBehaviour
     Rigidbody2D rb;
     Transform graphics;
     HealthBar _healthBar;
+    EnergyBar _energyBar;
 
     //CONTROL
     float jumpTimer;
@@ -40,7 +42,8 @@ public class PlayerBehavior : MonoBehaviour
     bool invulnerability;
 
     //STATS
-    int playerlife;
+    int playerLife;
+    float playerEnergy;
     int playerDmg;
     float walkingSpeed;
     float runningSpeed;
@@ -55,6 +58,7 @@ public class PlayerBehavior : MonoBehaviour
     float delayBetweenBlinks;
     int healthPerCan;
     int energyPerCan;
+    float energyPetAtk;
 
     //INPUTS
     Vector2 dirInput;
@@ -65,7 +69,8 @@ public class PlayerBehavior : MonoBehaviour
     private void Start()
     {
         //GET STATS
-        playerlife = stats.life;
+        playerLife = stats.life;
+        playerEnergy = stats.energy;
         playerDmg = stats.dmg;
         walkingSpeed = stats.speed;
         runningSpeed = stats.runningSpeed;
@@ -80,6 +85,7 @@ public class PlayerBehavior : MonoBehaviour
         delayBetweenBlinks = stats.delayBetweenBlinks;
         healthPerCan = stats.healthPerCan;
         energyPerCan = stats.energyPerCan;
+        energyPetAtk = stats.energyPerAtk;
 
         transform.GetComponentInChildren<Animator>().runtimeAnimatorController = _animator;
 
@@ -90,7 +96,10 @@ public class PlayerBehavior : MonoBehaviour
 
         //SET UI
         _healthBar = healthBarCanevas.GetComponentInChildren<HealthBar>();
-        _healthBar.SetMaxHealth(playerlife);
+        _healthBar.SetMaxHealth(playerLife);
+        _energyBar = energyBarCanevas.GetComponentInChildren<EnergyBar>();
+        _energyBar.SetMaxEnergy(playerEnergy);
+        playerEnergy = 0;
     }
 
     private void Update()
@@ -404,6 +413,9 @@ public class PlayerBehavior : MonoBehaviour
             if (collider.tag == "Enemy")
             {
                 collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
+                playerEnergy += energyPetAtk;
+                _energyBar.SetEnergy(playerEnergy);
+                Debug.Log("HIT");
             }
         }
     }
@@ -435,30 +447,32 @@ public class PlayerBehavior : MonoBehaviour
         obj.GetComponent<Can>().randomColor = false;
     }
 
+    //GIVE PLAYER ENERGY WHEN PICKING UP A CAN
     public void GetEnergy()
     {
-        Debug.Log("Get Energy");
+        playerEnergy += energyPerCan;
+        _energyBar.SetEnergy(playerEnergy);
     }
 
+    //HEAL PLAYER WHEN PICKING UP A CAN
     public void GetHealth()
     {
-        Debug.Log("GetHealth");
-        playerlife += healthPerCan;
+        playerLife += healthPerCan;
+        _healthBar.SetHealth(playerLife);
     }
 
     //PLAYER TAKE DMG
-
     public void TakeHit(int dmgTaken)
     {
         if (!invulnerability)
         {
-            playerlife -= dmgTaken;
-            _healthBar.SetHealth(playerlife);
-            if (playerlife > 0)
+            playerLife -= dmgTaken;
+            _healthBar.SetHealth(playerLife);
+            if (playerLife > 0)
             {
                 StartCoroutine(startInvulnerabiliy());
 
-                Debug.Log("New Life= " + playerlife);
+                Debug.Log("New Life= " + playerLife);
             }
             else
             {

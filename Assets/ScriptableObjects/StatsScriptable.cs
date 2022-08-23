@@ -4,12 +4,14 @@ using UnityEngine;
 public class StatsScriptable : ScriptableObject
 {
     public int life;
+    public float energy;
     public float speed;
     public float runningSpeed;
     public int dmg;
     public float attackSpeed;
     public RuntimeAnimatorController animator;
     public float radiusHitbox;
+    public float energyPerAtk;
 
 
     //Players'only stats
@@ -21,4 +23,5 @@ public class StatsScriptable : ScriptableObject
     public float delayBetweenBlinks;
     public int healthPerCan;
     public int energyPerCan;
+
 }

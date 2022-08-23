@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: 05_Ben
   m_EditorClassIdentifier: 
   life: 50
+  energy: 10
   speed: 7
   runningSpeed: 14
   dmg: 1
   attackSpeed: 0.5
   animator: {fileID: 9100000, guid: b9daf5b00993f86488f5a752324b8719, type: 2}
   radiusHitbox: 0.5
+  energyPerAtk: 0.1
   airTime: 0.7
   jumpHeight: 1.5
   jumpingSpeed: 7
   invulnerabilityDuration: 0.5
   numberOfBlinks: 5
   delayBetweenBlinks: 0.1
+  healthPerCan: 10
+  energyPerCan: 10
