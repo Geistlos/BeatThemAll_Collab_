@@ -7,6 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class PlayerBehavior : MonoBehaviour
 {
+    public enum PlayerNumber
+    {
+        PLAYER1,
+        PLAYER2,
+    }
+    public PlayerNumber currentPlayer;
+
+
     //LINKS
     [SerializeField] AnimationCurve curve;
     [SerializeField] StatsScriptable stats;
@@ -38,7 +46,7 @@ public class PlayerBehavior : MonoBehaviour
     Transform graphics;
     HealthBar _healthBar;
     EnergyBar _energyBar;
-    
+
 
     //CONTROL
     float jumpTimer;
@@ -117,7 +125,16 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Update()
     {
-        dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (currentPlayer == PlayerNumber.PLAYER1)
+        {
+            dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            Debug.Log("direction player 1" + dirInput);
+        }
+        else if (currentPlayer == PlayerNumber.PLAYER2)
+        {
+            dirInput = new Vector2(Input.GetAxisRaw("HorizontalP2"), Input.GetAxisRaw("VerticalP2"));
+            Debug.Log("direction player 2" + dirInput);
+        }
 
         //PLAYER DIRECTION
         if (dirInput.x < 0 && !flipped && currentState != PlayerState.DEATH)
@@ -273,7 +290,8 @@ public class PlayerBehavior : MonoBehaviour
         {
             case PlayerState.IDLE:
                 //IDLE > JUMP
-                if (Input.GetKeyDown(KeyCode.Space))
+                if ((Input.GetKeyDown(KeyCode.Space) && currentPlayer == PlayerNumber.PLAYER1) ||
+                    (Input.GetKeyDown(KeyCode.RightControl) && currentPlayer == PlayerNumber.PLAYER2))
                 {
                     TransitionToState(PlayerState.JUMPING);
                 }
@@ -283,7 +301,8 @@ public class PlayerBehavior : MonoBehaviour
                     TransitionToState(PlayerState.SPRINT);
                 }
                 //IDLE > ATTACK
-                if (Input.GetMouseButtonDown(0))
+                if ((Input.GetMouseButtonDown(0) && currentPlayer == PlayerNumber.PLAYER1) ||
+                    (Input.GetKeyDown(KeyCode.Keypad0) && currentPlayer == PlayerNumber.PLAYER2))
                 {
                     TransitionToState(PlayerState.ATTACKING);
                 }
@@ -295,7 +314,8 @@ public class PlayerBehavior : MonoBehaviour
                 break;
             case PlayerState.WALK:
                 //WALK > JUMP
-                if (Input.GetKeyDown(KeyCode.Space))
+                if ((Input.GetKeyDown(KeyCode.Space) && currentPlayer == PlayerNumber.PLAYER1) ||
+                                    (Input.GetKeyDown(KeyCode.RightControl) && currentPlayer == PlayerNumber.PLAYER2))
                 {
                     TransitionToState(PlayerState.JUMPING);
                 }
@@ -305,7 +325,8 @@ public class PlayerBehavior : MonoBehaviour
                     TransitionToState(PlayerState.SPRINT);
                 }
                 //WALK > ATTACK
-                if (Input.GetMouseButtonDown(0))
+                if ((Input.GetMouseButtonDown(0) && currentPlayer == PlayerNumber.PLAYER1) ||
+                    (Input.GetKeyDown(KeyCode.Keypad0) && currentPlayer == PlayerNumber.PLAYER2))
                 {
                     TransitionToState(PlayerState.ATTACKING);
                 }
@@ -317,7 +338,8 @@ public class PlayerBehavior : MonoBehaviour
                 break;
             case PlayerState.SPRINT:
                 //SPRINT > JUMP
-                if (Input.GetKeyDown(KeyCode.Space))
+                if ((Input.GetKeyDown(KeyCode.Space) && currentPlayer == PlayerNumber.PLAYER1) ||
+                                    (Input.GetKeyDown(KeyCode.RightControl) && currentPlayer == PlayerNumber.PLAYER2))
                 {
                     TransitionToState(PlayerState.JUMPING);
                 }
@@ -327,7 +349,8 @@ public class PlayerBehavior : MonoBehaviour
                     TransitionToState(PlayerState.WALK);
                 }
                 //SPRINT > ATTACK
-                if (Input.GetMouseButtonDown(0))
+                if ((Input.GetMouseButtonDown(0) && currentPlayer == PlayerNumber.PLAYER1) ||
+                    (Input.GetKeyDown(KeyCode.Keypad0) && currentPlayer == PlayerNumber.PLAYER2))
                 {
                     TransitionToState(PlayerState.ATTACKING);
                 }
@@ -345,7 +368,9 @@ public class PlayerBehavior : MonoBehaviour
                 //CONTROL JUMPING ANIMATION
                 onTheGround = false;
                 //AIR ATTACK
-                if (Input.GetKeyDown(KeyCode.Mouse0) && !isHoldingCan)
+                if ((Input.GetMouseButtonDown(0) && currentPlayer == PlayerNumber.PLAYER1) ||
+                    (Input.GetKeyDown(KeyCode.Keypad0) && currentPlayer == PlayerNumber.PLAYER2) &&
+                    !isHoldingCan)
                 {
                     TransitionToState(PlayerState.JUMPATTACK);
                 }
@@ -487,7 +512,8 @@ public class PlayerBehavior : MonoBehaviour
         GameManager.Instance.SetScore(playerScore);
     }
 
-    void UpdateBestScoreUI() {
+    void UpdateBestScoreUI()
+    {
         highestScoreUI.text = "Best score: " + highestScore;
     }
 

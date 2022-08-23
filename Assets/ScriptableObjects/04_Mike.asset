@@ -12,3 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06654e124cf0584d9e5d72a9a207042, type: 3}
   m_Name: 04_Mike
   m_EditorClassIdentifier: 
+  life: 10
+  energy: 10
+  speed: 10
+  runningSpeed: 20
+  dmg: 1
+  attackSpeed: 1
+  animator: {fileID: 0}
+  radiusHitbox: 0.5
+  energyPerAtk: 0.1
+  airTime: 0.7
+  jumpHeight: 1.5
+  jumpingSpeed: 7
+  invulnerabilityDuration: 0.1
+  numberOfBlinks: 5
+  delayBetweenBlinks: 0.1
+  healthPerCan: 10
+  energyPerCan: 10
