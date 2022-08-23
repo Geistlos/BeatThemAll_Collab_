@@ -14,7 +14,7 @@ public class Level1Manager : MonoBehaviour
     Transform playerTransform;
     float timer = 0f;
     public int killCount;
-    int spawnCount;
+    bool finLevel1;
 
     void OnStateEnter()
     {
@@ -22,13 +22,10 @@ public class Level1Manager : MonoBehaviour
         {
             case LevelState.wave1:
                 Instantiate(enemyPrefab[1], spawnPoints[1]);
-                spawnCount++;
                 break;
             case LevelState.wave1p:
                 Instantiate(enemyPrefab[1], spawnPoints[2]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[3]);
-                spawnCount++;
                 break;
             case LevelState.transi1:
                 camMovment.follow = true;
@@ -36,19 +33,13 @@ public class Level1Manager : MonoBehaviour
             case LevelState.wave2:
                 camMovment.follow = false;
                 Instantiate(enemyPrefab[1], spawnPoints[4]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[5]);
-                spawnCount++;
                 break;
             case LevelState.wave2p:
                 Instantiate(enemyPrefab[1], spawnPoints[6]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[7]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[8]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[9]);
-                spawnCount++;
                 break;
             case LevelState.transi2:
                 camMovment.follow = true;
@@ -56,17 +47,11 @@ public class Level1Manager : MonoBehaviour
             case LevelState.wave3:
                 camMovment.cameraBounds = boundColliders[1];
                 Instantiate(enemyPrefab[1], spawnPoints[10]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[11]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[12]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[13]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[14]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[15]);
-                spawnCount++;
                 break;
             case LevelState.transi3:
                 camMovment.cameraBounds = boundColliders[0];
@@ -74,21 +59,13 @@ public class Level1Manager : MonoBehaviour
             case LevelState.wave4:
                 camMovment.follow = false;
                 Instantiate(enemyPrefab[1], spawnPoints[16]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[17]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[18]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[19]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[20]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[21]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[22]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[23]);
-                spawnCount++;
                 break;
             case LevelState.transi4:
                 camMovment.follow = true;
@@ -96,25 +73,15 @@ public class Level1Manager : MonoBehaviour
             case LevelState.wave5:
                 camMovment.cameraBounds = boundColliders[2];
                 Instantiate(enemyPrefab[1], spawnPoints[24]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[25]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[26]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[27]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[28]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[29]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[30]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[31]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[32]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[33]);
-                spawnCount++;
                 break;
             case LevelState.transi5:
                 camMovment.cameraBounds = boundColliders[0];
@@ -122,29 +89,17 @@ public class Level1Manager : MonoBehaviour
             case LevelState.wave6:
                 camMovment.cameraBounds = boundColliders[3];
                 Instantiate(enemyPrefab[1], spawnPoints[34]);
-                spawnCount++;
                 Instantiate(enemyPrefab[1], spawnPoints[35]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[36]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[37]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[38]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[39]);
-                spawnCount++;
                 Instantiate(enemyPrefab[2], spawnPoints[40]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[41]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[42]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[43]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[44]);
-                spawnCount++;
                 Instantiate(enemyPrefab[3], spawnPoints[45]);
-                spawnCount++;
                 break;
             default:
                 break;
@@ -199,7 +154,7 @@ public class Level1Manager : MonoBehaviour
                 if (playerTransform.position.x >= 98f) TransitionToState(LevelState.wave6);
                 break;
             case LevelState.wave6:
-                if (killCount == 45) Debug.Log("Level 1 Finished");
+                if (killCount == 45 && !finLevel1) {Debug.Log("Level 1 Finished"); finLevel1 = true; }
                 break;
             default:
                 break;
