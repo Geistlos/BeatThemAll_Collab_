@@ -10,6 +10,7 @@ public class Can : MonoBehaviour
     [SerializeField] Sprite redCan;
     [SerializeField] Sprite blueCan;
     [SerializeField] Sprite greenCan;
+    [SerializeField] GameObject shadow;
 
     //STATS
     float flightSpeed = 20f;
@@ -41,7 +42,7 @@ public class Can : MonoBehaviour
     {
         sr = transform.GetComponent<SpriteRenderer>();
         if (randomColor)
-            _canColor = (canColor)Random.Range(0, 2);
+            _canColor = (canColor)Random.Range(0, 3);
         else
         {
             _canColor = canColor.green;
@@ -76,10 +77,17 @@ public class Can : MonoBehaviour
         }
 
         //DETECTION PICK UP PLAYER
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetMouseButtonDown(1))
         {
             pickUpCan();
         }
+
+        //SHADOW
+        /*if (transform.position.y <= targetY + 1)
+        {
+            Debug.Log("Shadow Scale = " + (transform.position.y - targetY));
+            shadow.transform.localScale = new Vector3(transform.position.y - targetY, (transform.position.x - targetY) / 2, 0);
+        }*/
     }
 
     void pickUpCan()
@@ -127,11 +135,12 @@ public class Can : MonoBehaviour
     {
         rb.constraints = RigidbodyConstraints.None;
         carried = false;
-
+        transform.parent = null;
 
         if (!droped)
         {
             targetY = transform.position.y - offSetY;
+
             if (!flipped)
             {
                 rb.velocity = new Vector3(.85f, -.1f, 0) * flightSpeed;
