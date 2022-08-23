@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    public enum EnemyState { Idle, Walk, Attack, Dead, Hurted}
+    public enum EnemyState { Idle, Walk, Attack, Dead, Hurted }
     public EnemyState currentState;
     [SerializeField] StatsScriptable statsScriptable;
     [SerializeField] GameObject collecPrefab;
@@ -35,12 +35,12 @@ public class EnemyBehavior : MonoBehaviour
         health = statsScriptable.life;
         speed = statsScriptable.speed;
         player1 = GameManager.Instance.player1.transform;
-        if(GameManager.Instance.player2 != null) player2 = GameManager.Instance.player2.transform;
+        if (GameManager.Instance.player2 != null) player2 = GameManager.Instance.player2.transform;
         TransitionToState(EnemyState.Idle);
     }
-    
 
-    void OnStateEnter ()
+
+    void OnStateEnter()
     {
         switch (currentState)
         {
@@ -59,6 +59,7 @@ public class EnemyBehavior : MonoBehaviour
                 cooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
                 break;
             case EnemyState.Dead:
+                gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
                 Instantiate(collecPrefab, transform.position, Quaternion.identity);
                 animator.SetTrigger("DeathTrigger");
                 timer = 0f;
@@ -74,12 +75,12 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    void OnStateUpdate ()
+    void OnStateUpdate()
     {
         if (currentTarget != null && currentState != EnemyState.Dead)
         {
 
-            dirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 0.75f,0f);
+            dirMoveFixed = new Vector3(currentTarget.position.x, currentTarget.position.y - 0.75f, 0f);
 
 
             dirMove = dirMoveFixed - transform.position;
@@ -105,7 +106,7 @@ public class EnemyBehavior : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.Idle:
-                if(currentTarget != null)
+                if (currentTarget != null)
                 {
                     timer += Time.deltaTime;
                     if (timer > statsScriptable.attackSpeed) TransitionToState(EnemyState.Attack);
@@ -115,16 +116,16 @@ public class EnemyBehavior : MonoBehaviour
 
                 if (currentTarget == null)
                 {
-                    if (Vector2.Distance(transform.position, player1.position) < 5f) currentTarget = player1;
+                    if (Vector2.Distance(transform.position, player1.position) < 7.5f) currentTarget = player1;
 
-                    if(player2 != null)
+                    if (player2 != null)
                     {
-                    if (Vector2.Distance(transform.position, player2.position) < 5f) currentTarget = player2;
+                        if (Vector2.Distance(transform.position, player2.position) < 7.5f) currentTarget = player2;
                     }
                 }
                 break;
             case EnemyState.Walk:
-                if(currentTarget == null)
+                if (currentTarget == null)
                 {
                     TransitionToState(EnemyState.Idle);
                     return;
@@ -133,7 +134,7 @@ public class EnemyBehavior : MonoBehaviour
                 if (Vector2.Distance(transform.position, dirMoveFixed) < 1f) TransitionToState(EnemyState.Idle);
 
 
-                if (Vector2.Distance(transform.position, dirMoveFixed) > 5f)
+                if (Vector2.Distance(transform.position, dirMoveFixed) > 7.5f)
                 {
                     currentTarget = null;
                     TransitionToState(EnemyState.Idle);
@@ -145,7 +146,7 @@ public class EnemyBehavior : MonoBehaviour
                 break;
             case EnemyState.Dead:
                 timer += Time.deltaTime;
-                if(timer >= 2f) Destroy(gameObject);
+                if (timer >= 2f) Destroy(gameObject);
                 break;
             case EnemyState.Hurted:
                 timer += Time.deltaTime;
@@ -161,13 +162,16 @@ public class EnemyBehavior : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.Idle:
+                rb2d.velocity = dirMove.normalized * 0f;
                 break;
             case EnemyState.Walk:
                 if (currentTarget != null) rb2d.velocity = dirMove.normalized * speed;
                 break;
             case EnemyState.Attack:
+                rb2d.velocity = dirMove.normalized * 0f;
                 break;
             case EnemyState.Dead:
+                rb2d.velocity = dirMove.normalized * 0f;
                 break;
             case EnemyState.Hurted:
                 if (timer < 0.25f) rb2d.velocity = -dirMove.normalized * 2; else rb2d.velocity = Vector2.zero;
@@ -177,7 +181,7 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    void OnStateExit ()
+    void OnStateExit()
     {
         switch (currentState)
         {
@@ -199,7 +203,7 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    void TransitionToState (EnemyState nextState)
+    void TransitionToState(EnemyState nextState)
     {
         OnStateExit();
         currentState = nextState;
@@ -210,10 +214,10 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (currentState != EnemyState.Dead)
         {
-        health -= DamageAmount;
-        if(health <= 0) TransitionToState(EnemyState.Dead);
-        else TransitionToState(EnemyState.Hurted);
-        animator.SetTrigger("HurtTrigger");
+            health -= DamageAmount;
+            if (health <= 0) TransitionToState(EnemyState.Dead);
+            else TransitionToState(EnemyState.Hurted);
+            animator.SetTrigger("HurtTrigger");
         }
     }
 
@@ -245,7 +249,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Can")
+        if (collision.gameObject.tag == "Can")
         {
             if (!collision.GetComponent<Can>().onTheGround && !collision.GetComponent<Can>().carried)
             {
