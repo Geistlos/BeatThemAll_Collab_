@@ -497,8 +497,10 @@ public class PlayerBehavior : MonoBehaviour
             }
             else
             {
+
                 TransitionToState(PlayerState.DEATH);
                 animator.SetTrigger("Dead");
+                GameManager.Instance.PlayerDied(1);
             }
 
         }

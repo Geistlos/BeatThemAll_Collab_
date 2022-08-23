@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06654e124cf0584d9e5d72a9a207042, type: 3}
   m_Name: 05_Ben
   m_EditorClassIdentifier: 
-  life: 50
+  life: 10
   energy: 10
   speed: 7
   runningSpeed: 14

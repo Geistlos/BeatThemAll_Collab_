@@ -11,7 +11,10 @@ public class GameManager : MonoBehaviour
     }
 
     public GameObject player1;
-    public bool isPlayer1Dead;
     public GameObject player2;
-    public bool isPlayer2Dead;
+
+    public void PlayerDied(int playerNumber)
+    {
+
+    }
 }
