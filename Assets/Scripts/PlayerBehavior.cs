@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] GameObject canPrefab;
     [SerializeField] GameObject healthBarCanevas;
     [SerializeField] GameObject energyBarCanevas;
+    [SerializeField] TMP_Text scoreUI;
     [SerializeField] GameObject shadow;
 
     //STATE MACHINE
@@ -33,6 +36,7 @@ public class PlayerBehavior : MonoBehaviour
     Transform graphics;
     HealthBar _healthBar;
     EnergyBar _energyBar;
+    //ScoreUI _scoreUI;
 
     //CONTROL
     float jumpTimer;
@@ -59,6 +63,7 @@ public class PlayerBehavior : MonoBehaviour
     int healthPerCan;
     int energyPerCan;
     float energyPetAtk;
+    int playerScore;
 
     //INPUTS
     Vector2 dirInput;
@@ -100,7 +105,10 @@ public class PlayerBehavior : MonoBehaviour
         _energyBar = energyBarCanevas.GetComponentInChildren<EnergyBar>();
         _energyBar.SetMaxEnergy(playerEnergy);
         playerEnergy = 0;
+        UpdateScoreUI();
     }
+
+
 
     private void Update()
     {
@@ -459,6 +467,19 @@ public class PlayerBehavior : MonoBehaviour
     {
         playerLife += healthPerCan;
         _healthBar.SetHealth(playerLife);
+    }
+
+    //UPDATE SCORE ON THE UI
+    private void UpdateScoreUI()
+    {
+        scoreUI.text = "Score : " + playerScore;
+    }
+
+    //INCREASE SCORE WHEN PLAYER PICKS A RECORD
+    public void IncreaseScore( int score)
+    {
+        playerScore += score;
+        UpdateScoreUI();
     }
 
     //PLAYER TAKE DMG
