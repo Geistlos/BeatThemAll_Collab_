@@ -6,7 +6,6 @@ public class Collectible : MonoBehaviour
 {
     int score0 = 100;
     int score1 = 500;
-    float life = 10;
     int numberOfBlinks = 5;
     float delayBetweenBlinks = .2f;
     float delayBeforeBlink = 8f;
@@ -34,7 +33,6 @@ public class Collectible : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Hit player collec");
         if (collision.gameObject.tag == "Player")
         {
             collision.transform.parent.parent.GetComponent<PlayerBehavior>().IncreaseScore(score);
