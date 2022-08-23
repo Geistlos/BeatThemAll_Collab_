@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -474,10 +475,11 @@ public class PlayerBehavior : MonoBehaviour
     private void UpdateScoreUI()
     {
         scoreUI.text = "Score : " + playerScore;
+        GameManager.Instance.SetScore(playerScore);
     }
 
     //INCREASE SCORE WHEN PLAYER PICKS A RECORD
-    public void IncreaseScore( int score)
+    public void IncreaseScore(int score)
     {
         playerScore += score;
         UpdateScoreUI();
@@ -501,6 +503,7 @@ public class PlayerBehavior : MonoBehaviour
                 TransitionToState(PlayerState.DEATH);
                 animator.SetTrigger("Dead");
                 GameManager.Instance.PlayerDied(1);
+                SceneManager.LoadScene("Menu");
             }
 
         }
