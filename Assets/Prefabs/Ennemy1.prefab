@@ -167,8 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   statsScriptable: {fileID: 11400000, guid: 6bceeb05ed8a82442829fc2bd484deef, type: 2}
-  player1: {fileID: 0}
-  player2: {fileID: 0}
+  collecPrefab: {fileID: 5474482633735185186, guid: 40fb70c64aff3b24a82d7652b785664a, type: 3}
 --- !u!50 &6708421919182781744
 Rigidbody2D:
   serializedVersion: 4

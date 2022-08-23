@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   statsScriptable: {fileID: 11400000, guid: 674e226f9af612145a36ce41264ff0e1, type: 2}
+  collecPrefab: {fileID: 5474482633735185186, guid: 40fb70c64aff3b24a82d7652b785664a, type: 3}
 --- !u!50 &6708421919182781744
 Rigidbody2D:
   serializedVersion: 4
