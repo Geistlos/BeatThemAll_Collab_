@@ -5,7 +5,7 @@ using UnityEngine;
 public class Can : MonoBehaviour
 {
     //LINKS
-    Rigidbody rb;
+    Rigidbody2D rb;
     SpriteRenderer sr;
     [SerializeField] Sprite redCan;
     [SerializeField] Sprite blueCan;
@@ -21,11 +21,10 @@ public class Can : MonoBehaviour
     float radiusHitbox = .5f;
 
     //CONTROL
-    bool onTheGround;
+    public bool onTheGround;
     public bool carried;
     float targetY = -Mathf.Infinity;
     float offSetY = 1.5f;
-    int startY;
     public bool droped;
     public bool randomColor = true;
 
@@ -61,7 +60,7 @@ public class Can : MonoBehaviour
             default:
                 break;
         }
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
         if (droped)
         {
             ThrowCan(false);
@@ -111,6 +110,7 @@ public class Can : MonoBehaviour
                 {
                     player.PickUpCan();
                     Destroy(gameObject);
+                    carried = true;
                 }
                 if (_canColor == canColor.blue)
                 {
@@ -124,7 +124,7 @@ public class Can : MonoBehaviour
     void hitGround()
     {
         rb.velocity = Vector3.zero;
-        rb.constraints = RigidbodyConstraints.FreezePosition;
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
         onTheGround = true;
         transform.parent = null;
         StartCoroutine(BlinkGameObject(this.gameObject, numberOfBlinks, delayBetweenBlinks, delayBeforeBlink));
@@ -133,7 +133,7 @@ public class Can : MonoBehaviour
     //THROW CAN, CALLED BY THE PLAYER. GET ORIENTATION FROM IT
     public void ThrowCan(bool flipped)
     {
-        rb.constraints = RigidbodyConstraints.None;
+        rb.constraints = RigidbodyConstraints2D.None;
         carried = false;
         transform.parent = null;
 
@@ -143,11 +143,11 @@ public class Can : MonoBehaviour
 
             if (!flipped)
             {
-                rb.velocity = new Vector3(.85f, -.1f, 0) * flightSpeed;
+                rb.velocity = new Vector3(.55f, -.20f, 0) * flightSpeed;
             }
             else
             {
-                rb.velocity = new Vector3(-.85f, -.1f, 0) * flightSpeed;
+                rb.velocity = new Vector3(-.55f, -.20f, 0) * flightSpeed;
             }
         }
         else if (droped)

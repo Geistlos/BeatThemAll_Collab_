@@ -7,6 +7,7 @@ public class EnemyBehavior : MonoBehaviour
     public enum EnemyState { Idle, Walk, Attack, Dead, Hurted}
     public EnemyState currentState;
     [SerializeField] StatsScriptable statsScriptable;
+    [SerializeField] GameObject collecPrefab;
 
     Rigidbody2D rb2d;
     SpriteRenderer sr;
@@ -58,6 +59,7 @@ public class EnemyBehavior : MonoBehaviour
                 cooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
                 break;
             case EnemyState.Dead:
+                Instantiate(collecPrefab, transform.position, Quaternion.identity);
                 animator.SetTrigger("DeathTrigger");
                 timer = 0f;
                 Level1Manager.Instance.killCount++;
@@ -239,5 +241,16 @@ public class EnemyBehavior : MonoBehaviour
     void FixedUpdate()
     {
         OnStateFixedUpdate();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Can")
+        {
+            if (!collision.GetComponent<Can>().onTheGround && !collision.GetComponent<Can>().carried)
+            {
+                TakeDamage(10);
+            }
+        }
     }
 }
