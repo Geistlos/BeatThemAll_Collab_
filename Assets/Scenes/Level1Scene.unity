@@ -570,6 +570,17 @@ MonoBehaviour:
   - {fileID: 1600742418}
   - {fileID: 1196673659}
   - {fileID: 2120417255}
+  - {fileID: 76270412}
+  - {fileID: 1381557773}
+  - {fileID: 560611705}
+  - {fileID: 1098747466}
+  - {fileID: 1418740415}
+  - {fileID: 1980807740}
+  - {fileID: 1987231919}
+  - {fileID: 1657730764}
+  - {fileID: 273042580}
+  - {fileID: 596930270}
+  - {fileID: 2134733503}
   enemyPrefab:
   - {fileID: 0}
   - {fileID: 6708421919182781747, guid: e332a525c049d7d4c8366cc1901a3eef, type: 3}
