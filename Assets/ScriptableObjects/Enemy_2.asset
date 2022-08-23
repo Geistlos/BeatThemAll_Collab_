@@ -12,12 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06654e124cf0584d9e5d72a9a207042, type: 3}
   m_Name: Enemy_2
   m_EditorClassIdentifier: 
-  life: 5
-  speed: 2.5
+  life: 7
+  speed: 2.7
   runningSpeed: 0
   dmg: 1
   attackSpeed: 1
   animator: {fileID: 9100000, guid: 43ff910f0b9cba74fbe1cf7181efb34a, type: 2}
+  radiusHitbox: 0
   airTime: 0
   jumpHeight: 0
   jumpingSpeed: 0
+  invulnerabilityDuration: 0
+  numberOfBlinks: 0
+  delayBetweenBlinks: 0
+  healthPerCan: 0
+  energyPerCan: 0
