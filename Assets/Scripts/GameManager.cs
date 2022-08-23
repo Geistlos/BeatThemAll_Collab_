@@ -11,10 +11,13 @@ public class GameManager : MonoBehaviour
     }
 
     public GameObject player1;
+    public bool isPlayer1Dead;
     public GameObject player2;
+    public bool isPlayer2Dead;
 
     public void PlayerDied(int playerNumber)
     {
-
+        if(playerNumber == 1) isPlayer1Dead = true;
+        if(playerNumber == 2) isPlayer2Dead = true; 
     }
 }

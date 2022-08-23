@@ -6,4 +6,9 @@ public class AnimEventManager : MonoBehaviour
     {
         GetComponentInParent<EnemyBehavior>().Attack();
     }
+
+    public void destroyEvent()
+    {
+        Destroy(gameObject);
+    }
 }

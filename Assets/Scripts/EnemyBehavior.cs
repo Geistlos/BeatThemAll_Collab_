@@ -88,6 +88,8 @@ public class EnemyBehavior : MonoBehaviour
             if (dirMove != Vector2.zero) { if (dirMove.x > 0) sr.flipX = false; else sr.flipX = true; }
         }
 
+        if (GameManager.Instance.isPlayer1Dead == true) currentTarget = null;
+
         #region inputtest
         /*
         dirMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -114,11 +116,11 @@ public class EnemyBehavior : MonoBehaviour
                     if (Vector2.Distance(transform.position, dirMoveFixed) > 1.2f) TransitionToState(EnemyState.Walk);
                 }
 
-                if (currentTarget == null)
+                if (currentTarget == null && GameManager.Instance.isPlayer1Dead == false)
                 {
                     if (Vector2.Distance(transform.position, player1.position) < 7.5f) currentTarget = player1;
 
-                    if (player2 != null)
+                    if (player2 != null && GameManager.Instance.isPlayer2Dead == false)
                     {
                         if (Vector2.Distance(transform.position, player2.position) < 7.5f) currentTarget = player2;
                     }
