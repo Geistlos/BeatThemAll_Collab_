@@ -7,6 +7,8 @@ public class Can : MonoBehaviour
     //LINKS
     Rigidbody2D rb;
     SpriteRenderer sr;
+    BoxCollider2D _collider;
+
     [SerializeField] Sprite redCan;
     [SerializeField] Sprite blueCan;
     [SerializeField] Sprite greenCan;
@@ -40,6 +42,8 @@ public class Can : MonoBehaviour
     private void Start()
     {
         sr = transform.GetComponent<SpriteRenderer>();
+        _collider = gameObject.GetComponent<BoxCollider2D>();
+
         if (randomColor)
             _canColor = (canColor)Random.Range(0, 3);
         else
@@ -127,6 +131,7 @@ public class Can : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezePosition;
         onTheGround = true;
         transform.parent = null;
+        _collider.isTrigger = false;
         StartCoroutine(BlinkGameObject(this.gameObject, numberOfBlinks, delayBetweenBlinks, delayBeforeBlink));
     }
 
@@ -136,6 +141,8 @@ public class Can : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.None;
         carried = false;
         transform.parent = null;
+        
+        _collider.isTrigger = true;
 
         if (!droped)
         {
@@ -170,5 +177,17 @@ public class Can : MonoBehaviour
             yield return new WaitForSeconds(seconds);
         }
         Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Collision");
+        if (collision.gameObject.tag == "Enemy")
+        {
+            if (!onTheGround && !carried)
+            {
+                collision.gameObject.GetComponent<EnemyBehavior>().TakeDamage(4);
+            }
+        }
     }
 }

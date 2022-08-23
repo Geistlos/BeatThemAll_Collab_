@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4512796953858664420}
   - component: {fileID: 709890189482621318}
   - component: {fileID: -2408621034371393213}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Can
   m_TagString: Can
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 85346520098129813}
   - component: {fileID: 4680115397960174317}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
