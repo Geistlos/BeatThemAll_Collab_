@@ -154,7 +154,7 @@ public class PlayerBehavior : MonoBehaviour
         OnStateUpdate();
 
         //TODO / TEMPS PICK A CAN
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H) && isHoldingCan == false)
         {
             isHoldingCan = true;
             animator.SetFloat("Can", 1);
