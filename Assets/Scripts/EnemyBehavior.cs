@@ -227,7 +227,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         Collider2D[] Colliders;
 
-        Colliders = Physics2D.OverlapCircleAll(transform.position, 4f);
+        Colliders = Physics2D.OverlapCircleAll(transform.position, .5f);
 
         foreach (Collider2D collider in Colliders)
         {
