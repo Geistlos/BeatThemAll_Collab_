@@ -11,5 +11,7 @@ public class GameManager : MonoBehaviour
     }
 
     public GameObject player1;
+    public bool isPlayer1Alive;
     public GameObject player2;
+    public bool isPlayer2Alive;
 }
