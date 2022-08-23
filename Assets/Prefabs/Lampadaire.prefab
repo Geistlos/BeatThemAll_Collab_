@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2948816183751713858}
   - component: {fileID: 2948816183751713857}
-  - component: {fileID: 2948816183751713859}
+  - component: {fileID: 6755097187836490424}
   m_Layer: 0
   m_Name: Lampadaire
   m_TagString: Untagged
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!60 &2948816183751713859
+--- !u!60 &6755097187836490424
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,10 +111,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.051649332, y: 0.1875099}
-      - {x: -0.051649332, y: 0.093759894}
-      - {x: 0.042100668, y: 0.093759894}
-      - {x: 0.042100668, y: 0.1875099}
+    - - {x: -0.020399332, y: -0.2499901}
+      - {x: -0.020399332, y: -0.2187401}
+      - {x: 0.010850668, y: -0.2187401}
+      - {x: 0.010850668, y: -0.2499901}
 --- !u!1 &2948816184612639542
 GameObject:
   m_ObjectHideFlags: 0
