@@ -625,6 +625,8 @@ MonoBehaviour:
   camMovment: {fileID: 1074190665}
   goArrow: {fileID: 621106516}
   finLevelUI: {fileID: 2133472159}
+  scoreFinLevel: {fileID: 1880311647}
+  timeFinLevel: {fileID: 448878658}
   killCount: 0
 --- !u!4 &154653014
 Transform:
@@ -5714,6 +5716,7 @@ MonoBehaviour:
   isPlayer1Dead: 0
   player2: {fileID: 0}
   isPlayer2Dead: 0
+  score: 0
   highestScore: 0
 --- !u!1 &2061673256
 GameObject:

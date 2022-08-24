@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     public GameObject player2;
     public bool isPlayer2Dead;
 
-    int score;
+    public int score;
     public int highestScore;
     public void PlayerDied(int playerNumber)
     {

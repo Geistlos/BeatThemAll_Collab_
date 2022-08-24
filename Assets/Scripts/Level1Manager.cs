@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Level1Manager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Level1Manager : MonoBehaviour
     [SerializeField] CameraMovement camMovment;
     [SerializeField] GameObject goArrow;
     [SerializeField] GameObject finLevelUI;
+    [SerializeField] TextMeshProUGUI scoreFinLevel;
+    [SerializeField] TextMeshProUGUI timeFinLevel;
     Transform playerTransform;
     float timer = 0f;
     public int killCount;
@@ -166,7 +169,11 @@ public class Level1Manager : MonoBehaviour
                 if (playerTransform.position.x >= 98f) TransitionToState(LevelState.wave6);
                 break;
             case LevelState.wave6:
-                if (killCount == 45 && !finLevel1) {finLevelUI.SetActive(true); finLevel1 = true; }
+                if (killCount == 45 && !finLevel1) {
+                    finLevelUI.SetActive(true);
+                    scoreFinLevel.text = "SCORE : " + GameManager.Instance.score.ToString();
+                    timeFinLevel.text = GameManager.Instance.GetTime();
+                    finLevel1 = true; }
                 break;
             default:
                 break;
