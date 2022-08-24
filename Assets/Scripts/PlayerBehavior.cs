@@ -40,7 +40,8 @@ public class PlayerBehavior : MonoBehaviour
         JUMPING,
         DEATH,
         JUMPATTACK,
-        SPECIALEATK
+        SPECIALEATK,
+        AFK
     }
     public PlayerState currentState;
 
@@ -143,12 +144,12 @@ public class PlayerBehavior : MonoBehaviour
         }
 
         //PLAYER DIRECTION
-        if (dirInput.x < 0 && !flipped && currentState != PlayerState.DEATH)
+        if (dirInput.x < 0 && !flipped && currentState != PlayerState.DEATH && currentState != PlayerState.AFK)
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
             flipped = true;
         }
-        else if (dirInput.x > 0 && flipped && currentState != PlayerState.DEATH)
+        else if (dirInput.x > 0 && flipped && currentState != PlayerState.DEATH && currentState != PlayerState.AFK)
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             flipped = false;
@@ -169,14 +170,14 @@ public class PlayerBehavior : MonoBehaviour
         }
 
         //TODO / GENERATE CAN
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) && currentState != PlayerState.AFK && currentState != PlayerState.DEATH)
         {
             var playerX = transform.position.x;
             var obj = Instantiate(canPrefab, new Vector3(Random.Range(playerX - 10, playerX + 10), 15, 0), Quaternion.identity);
             obj.GetComponent<Can>().droped = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && currentState != PlayerState.AFK)
         {
             SceneManager.LoadScene("Menu");
         }
@@ -451,7 +452,7 @@ public class PlayerBehavior : MonoBehaviour
     #endregion
 
     //CALLED TO TRANSITION BETWEEN TWO STATES
-    void TransitionToState(PlayerState newState)
+    public void TransitionToState(PlayerState newState)
     {
         if (currentState == PlayerState.IDLE && newState == PlayerState.WALK)
         {

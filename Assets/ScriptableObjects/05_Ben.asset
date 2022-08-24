@@ -15,7 +15,7 @@ MonoBehaviour:
   life: 10
   speed: 7
   runningSpeed: 14
-  dmg: 1
+  dmg: 10
   attackSpeed: 0.5
   animator: {fileID: 9100000, guid: b9daf5b00993f86488f5a752324b8719, type: 2}
   radiusHitbox: 0.5
