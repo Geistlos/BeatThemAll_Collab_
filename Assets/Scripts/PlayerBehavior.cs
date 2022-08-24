@@ -5,8 +5,14 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerBehavior : MonoBehaviour
 {
+    //TEST
+    float levelTime;
+    float min;
+    float sec;
+
     public enum PlayerNumber
     {
         PLAYER1,
@@ -132,6 +138,11 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Update()
     {
+        //TEST
+        //levelTime += Time.deltaTime;
+        TimeElapsed();
+        GetTime();
+
         if (currentPlayer == PlayerNumber.PLAYER1)
         {
             dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -666,4 +677,22 @@ public class PlayerBehavior : MonoBehaviour
         var fxL = Instantiate(FxPrefab[7], coords, rotation);
         fxL.GetComponent<AnimEventManager>().Direction(Vector3.right);
     }
+
+    void GetTime()
+    {
+        Debug.Log("Time = " + min.ToString("00") + ":" + Mathf.Floor(sec).ToString("00"));
+
+    }
+
+    void TimeElapsed()
+    {
+        sec += Time.deltaTime;
+        if(sec >= 60)
+        {
+            min++;
+            sec = 0;
+        }
+    }
+
+
 }

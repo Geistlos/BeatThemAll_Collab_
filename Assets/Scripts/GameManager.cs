@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    float sec;
+    int min;
+
     private void Awake()
     {
         Instance = this;
@@ -12,7 +15,22 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        
+
+    }
+
+    private void Update()
+    {
+        sec += Time.deltaTime;
+        if (sec >= 60)
+        {
+            min++;
+            sec = 0;
+        }
+    }
+
+    public string GetTime()
+    {
+        return "Time : " + min.ToString("00") + ":" + Mathf.Floor(sec).ToString("00");
     }
 
     public GameObject player1;
@@ -24,14 +42,14 @@ public class GameManager : MonoBehaviour
     public int highestScore;
     public void PlayerDied(int playerNumber)
     {
-        if(playerNumber == 1) isPlayer1Dead = true;
-        if(playerNumber == 2) isPlayer2Dead = true; 
+        if (playerNumber == 1) isPlayer1Dead = true;
+        if (playerNumber == 2) isPlayer2Dead = true;
     }
 
     public void SetScore(int playerScore)
     {
         score = playerScore;
-        if(score > highestScore)
+        if (score > highestScore)
         {
             PlayerPrefs.SetInt("SavedScore", score);
         }
