@@ -11,6 +11,7 @@ public class Level1Manager : MonoBehaviour
     [SerializeField] List<GameObject> enemyPrefab;
     [SerializeField] List<BoxCollider2D> boundColliders;
     [SerializeField] CameraMovement camMovment;
+    [SerializeField] GameObject goArrow;
     Transform playerTransform;
     float timer = 0f;
     public int killCount;
@@ -29,9 +30,11 @@ public class Level1Manager : MonoBehaviour
                 break;
             case LevelState.transi1:
                 camMovment.follow = true;
+                goArrow.SetActive(true);
                 break;
             case LevelState.wave2:
                 camMovment.follow = false;
+                goArrow.SetActive(false);
                 Instantiate(enemyPrefab[1], spawnPoints[4]);
                 Instantiate(enemyPrefab[1], spawnPoints[5]);
                 break;
@@ -43,8 +46,10 @@ public class Level1Manager : MonoBehaviour
                 break;
             case LevelState.transi2:
                 camMovment.follow = true;
+                goArrow.SetActive(true);
                 break;
             case LevelState.wave3:
+                goArrow.SetActive(false);
                 camMovment.cameraBounds = boundColliders[1];
                 Instantiate(enemyPrefab[1], spawnPoints[10]);
                 Instantiate(enemyPrefab[1], spawnPoints[11]);
@@ -54,10 +59,12 @@ public class Level1Manager : MonoBehaviour
                 Instantiate(enemyPrefab[3], spawnPoints[15]);
                 break;
             case LevelState.transi3:
+                goArrow.SetActive(true);
                 camMovment.cameraBounds = boundColliders[0];
                 break;
             case LevelState.wave4:
                 camMovment.follow = false;
+                goArrow.SetActive(false);
                 Instantiate(enemyPrefab[1], spawnPoints[16]);
                 Instantiate(enemyPrefab[1], spawnPoints[17]);
                 Instantiate(enemyPrefab[1], spawnPoints[18]);
@@ -69,8 +76,10 @@ public class Level1Manager : MonoBehaviour
                 break;
             case LevelState.transi4:
                 camMovment.follow = true;
+                goArrow.SetActive(true);
                 break;
             case LevelState.wave5:
+                goArrow.SetActive(false);
                 camMovment.cameraBounds = boundColliders[2];
                 Instantiate(enemyPrefab[1], spawnPoints[24]);
                 Instantiate(enemyPrefab[1], spawnPoints[25]);
@@ -84,9 +93,11 @@ public class Level1Manager : MonoBehaviour
                 Instantiate(enemyPrefab[3], spawnPoints[33]);
                 break;
             case LevelState.transi5:
+                goArrow.SetActive(true);
                 camMovment.cameraBounds = boundColliders[0];
                 break;
             case LevelState.wave6:
+                goArrow.SetActive(false);
                 camMovment.cameraBounds = boundColliders[3];
                 Instantiate(enemyPrefab[1], spawnPoints[34]);
                 Instantiate(enemyPrefab[1], spawnPoints[35]);
