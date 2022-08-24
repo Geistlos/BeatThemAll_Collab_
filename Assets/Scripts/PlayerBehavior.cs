@@ -39,6 +39,7 @@ public class PlayerBehavior : MonoBehaviour
         JUMPING,
         DEATH,
         JUMPATTACK,
+        SPECIALEATK
     }
     public PlayerState currentState;
 
@@ -179,9 +180,10 @@ public class PlayerBehavior : MonoBehaviour
             SceneManager.LoadScene("Menu");
         }
 
-        if (Input.GetMouseButtonDown(2) && currentEnergy >= playerMaxEnergy)
+        if (Input.GetMouseButtonDown(2) && currentEnergy >= playerMaxEnergy && currentState == PlayerState.IDLE)
         {
-            SuperATK();
+            StartCoroutine(SuperATK(.50f));
+            TransitionToState(PlayerState.SPECIALEATK);
         }
 
         //TODO / TEMPS TAKE DMG
@@ -262,6 +264,10 @@ public class PlayerBehavior : MonoBehaviour
                 Attack();
                 //WAIT FOR ANIMATION END + DELAY BEFORE SWITCHING STATE
                 StartCoroutine(waitAnimationEnd(attackDelay, PlayerState.IDLE));
+                break;
+            case PlayerState.SPECIALEATK:
+                animator.SetTrigger("Special");
+                StartCoroutine(waitAnimationEnd(0.6f, PlayerState.IDLE));
                 break;
             default:
                 break;
@@ -632,19 +638,21 @@ public class PlayerBehavior : MonoBehaviour
     }
 
     //ATTAQUE SPECIALE
-    void SuperATK()
+    IEnumerator SuperATK(float delay)
     {
         //currentEnergy = 0;
 
+        yield return new WaitForSeconds(delay);
+
         //Smoke left
-        var coords = new Vector3(transform.position.x - 0.0f, transform.position.y - 0.0f, transform.position.z);
+        var coords = new Vector3(transform.position.x - .7f, transform.position.y - 1.0f, transform.position.z);
         var rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        Instantiate(FxPrefab[7], coords, rotation);
+        Instantiate(FxPrefab[5], coords, rotation);
 
         //Smoke right
-        coords = new Vector3(transform.position.x + 0.0f, transform.position.y - 0.0f, transform.position.z);
+        coords = new Vector3(transform.position.x + 1.0f, transform.position.y - .7f, transform.position.z);
         rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        Instantiate(FxPrefab[7], coords, rotation);
+        Instantiate(FxPrefab[5], coords, rotation);
 
         //Shockwave left
         coords = new Vector3(transform.position.x - 1.5f, transform.position.y - 1.0f, transform.position.z);
