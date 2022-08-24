@@ -30,8 +30,7 @@ public class AnimEventManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision");
-        if (collision.gameObject.tag == "Enemy")
+        if (collision != null && collision.gameObject.tag == "Enemy")
         {
             collision.gameObject.GetComponent<EnemyBehavior>().TakeDamage(10);
         }

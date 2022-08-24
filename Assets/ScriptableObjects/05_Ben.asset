@@ -27,8 +27,8 @@ MonoBehaviour:
   delayBetweenBlinks: 0.1
   healthPerCan: 10
   energyPerCan: 10
-  energyPerAtk: 1
-  startingEnergy: 100
+  energyPerAtk: 5
+  startingEnergy: 0
   playerMaxEnergy: 100
   collectiblesMin: 0
   collectiblesMax: 0

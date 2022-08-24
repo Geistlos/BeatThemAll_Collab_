@@ -642,7 +642,8 @@ public class PlayerBehavior : MonoBehaviour
     //ATTAQUE SPECIALE
     IEnumerator SuperATK(float delay)
     {
-        //currentEnergy = 0;
+        currentEnergy = 0;
+        _energyBar.SetEnergy(currentEnergy);
 
         yield return new WaitForSeconds(delay);
 
