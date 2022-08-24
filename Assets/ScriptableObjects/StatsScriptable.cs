@@ -22,7 +22,8 @@ public class StatsScriptable : ScriptableObject
     public int healthPerCan;
     public int energyPerCan;
     public float energyPerAtk;
-    public float energy;
+    public int startingEnergy;
+    public int playerMaxEnergy;
 
     //Enemy stats
     public int collectiblesMin;

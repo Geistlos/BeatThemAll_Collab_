@@ -56,10 +56,12 @@ public class PlayerBehavior : MonoBehaviour
     bool isHoldingCan;
     bool onTheGround = true;
     bool invulnerability;
+    float currentEnergy;
 
     //STATS
     int playerLife;
-    float playerEnergy;
+    int playerStartingEnergy;
+    int playerMaxEnergy;
     int playerDmg;
     float walkingSpeed;
     float runningSpeed;
@@ -88,7 +90,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         //GET STATS
         playerLife = stats.life;
-        playerEnergy = stats.energy;
+        playerStartingEnergy = stats.startingEnergy;
         playerDmg = stats.dmg;
         walkingSpeed = stats.speed;
         runningSpeed = stats.runningSpeed;
@@ -104,6 +106,7 @@ public class PlayerBehavior : MonoBehaviour
         healthPerCan = stats.healthPerCan;
         energyPerCan = stats.energyPerCan;
         energyPetAtk = stats.energyPerAtk;
+        playerMaxEnergy = stats.playerMaxEnergy;
 
         transform.GetComponentInChildren<Animator>().runtimeAnimatorController = _animator;
 
@@ -116,8 +119,9 @@ public class PlayerBehavior : MonoBehaviour
         _healthBar = healthBarCanevas.GetComponentInChildren<HealthBar>();
         _healthBar.SetMaxHealth(playerLife);
         _energyBar = energyBarCanevas.GetComponentInChildren<EnergyBar>();
-        _energyBar.SetMaxEnergy(playerEnergy);
-        playerEnergy = 0;
+        _energyBar.SetMaxEnergy(playerMaxEnergy);
+        currentEnergy = playerStartingEnergy;
+        _energyBar.SetEnergy(currentEnergy);
         highestScore = GameManager.Instance.highestScore;
         UpdateBestScoreUI();
         UpdateScoreUI();
@@ -175,6 +179,11 @@ public class PlayerBehavior : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("Menu");
+        }
+
+        if (Input.GetMouseButtonDown(2) && currentEnergy >= playerMaxEnergy)
+        {
+            SuperATK();
         }
 
         //TODO / TEMPS TAKE DMG
@@ -439,7 +448,7 @@ public class PlayerBehavior : MonoBehaviour
     //CALLED TO TRANSITION BETWEEN TWO STATES
     void TransitionToState(PlayerState newState)
     {
-        if(currentState == PlayerState.IDLE && newState == PlayerState.WALK)
+        if (currentState == PlayerState.IDLE && newState == PlayerState.WALK)
         {
             if (!flipped)
             {
@@ -494,8 +503,8 @@ public class PlayerBehavior : MonoBehaviour
                     Instantiate(FxPrefab[6], new Vector3(hitPosition.transform.position.x - 0f, hitPosition.transform.position.y + .5f, hitPosition.transform.position.z), transform.rotation);
                 }
                 collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
-                playerEnergy += energyPetAtk;
-                _energyBar.SetEnergy(playerEnergy);
+                currentEnergy += energyPetAtk;
+                _energyBar.SetEnergy(currentEnergy);
             }
         }
     }
@@ -531,8 +540,8 @@ public class PlayerBehavior : MonoBehaviour
     //GIVE PLAYER ENERGY WHEN PICKING UP A CAN
     public void GetEnergy()
     {
-        playerEnergy += energyPerCan;
-        _energyBar.SetEnergy(playerEnergy);
+        currentEnergy += energyPerCan;
+        _energyBar.SetEnergy(currentEnergy);
     }
 
     //HEAL PLAYER WHEN PICKING UP A CAN
@@ -622,5 +631,33 @@ public class PlayerBehavior : MonoBehaviour
         }
 
         renderer.enabled = true;
+    }
+
+    //ATTAQUE SPECIALE
+    void SuperATK()
+    {
+        //currentEnergy = 0;
+
+        //Smoke left
+        var coords = new Vector3(transform.position.x - 1.5f, transform.position.y - 1.0f, transform.position.z);
+        var rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+        Instantiate(FxPrefab[7], coords, rotation);
+
+        //Smoke right
+        coords = new Vector3(transform.position.x + 1.5f, transform.position.y - 1.0f, transform.position.z);
+        rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        Instantiate(FxPrefab[7], coords, rotation);
+
+        //Shockwave left
+        coords = new Vector3(transform.position.x - 1.5f, transform.position.y - 1.0f, transform.position.z);
+        rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+        var fxR = Instantiate(FxPrefab[7], coords, rotation);
+        fxR.GetComponent<AnimEventManager>().Direction(Vector3.left);
+
+        //Shockwave right
+        coords = new Vector3(transform.position.x + 1.5f, transform.position.y - 1.0f, transform.position.z);
+        rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        var fxL = Instantiate(FxPrefab[7], coords, rotation);
+        fxL.GetComponent<AnimEventManager>().Direction(Vector3.right);
     }
 }
