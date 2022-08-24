@@ -278,7 +278,7 @@ public class EnemyBehavior : MonoBehaviour
         {
             if (!collision.GetComponent<Can>().onTheGround && !collision.GetComponent<Can>().carried)
             {
-                TakeDamage(10);
+                TakeDamage(2);
             }
         }
     }

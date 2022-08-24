@@ -179,14 +179,15 @@ public class Can : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    /*private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Collision");
         if (collision.gameObject.tag == "Enemy")
         {
             if (!onTheGround && !carried)
             {
-                collision.gameObject.GetComponent<EnemyBehavior>().TakeDamage(4);
+                collision.gameObject.GetComponent<EnemyBehavior>().TakeDamage(1);
             }
         }
-    }
+    }*/
 }
