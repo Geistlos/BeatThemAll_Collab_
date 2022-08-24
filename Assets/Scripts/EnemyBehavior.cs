@@ -123,7 +123,7 @@ public class EnemyBehavior : MonoBehaviour
             case EnemyState.Idle:
                 if (currentTarget != null)
                 {
-                    randomAttackSpeed = Random.Range(0.2f, 0.4f);
+                    randomAttackSpeed = Random.Range(0.4f, 0.6f);
                     timer += Time.deltaTime;
                     if (timer > statsScriptable.attackSpeed) TransitionToState(EnemyState.Attack);
                     if (timer > randomAttackSpeed && firstAttack)
