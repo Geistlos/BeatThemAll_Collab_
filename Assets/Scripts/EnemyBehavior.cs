@@ -20,6 +20,8 @@ public class EnemyBehavior : MonoBehaviour
     Vector2 dirMove;
     Vector3 dirMoveFixed;
     bool attackSwitch;
+    bool firstAttack = true;
+    float randomAttackSpeed;
     float health;
     float speed;
     float timer;
@@ -49,6 +51,13 @@ public class EnemyBehavior : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.Idle:
+                /*
+                if (firstAttack is true && currentTarget != null)
+                {
+                    firstAttack = false;
+                    TransitionToState(EnemyState.Attack);
+                }
+                */
                 timer = 0f;
                 break;
             case EnemyState.Walk:
@@ -114,10 +123,20 @@ public class EnemyBehavior : MonoBehaviour
             case EnemyState.Idle:
                 if (currentTarget != null)
                 {
+                    randomAttackSpeed = Random.Range(0.2f, 0.4f);
                     timer += Time.deltaTime;
                     if (timer > statsScriptable.attackSpeed) TransitionToState(EnemyState.Attack);
+                    if (timer > randomAttackSpeed && firstAttack)
+                    {
+                        TransitionToState(EnemyState.Attack);
+                        firstAttack = false;
+                    }
 
-                    if (Vector2.Distance(transform.position, dirMoveFixed) > 1.2f) TransitionToState(EnemyState.Walk);
+                    if (Vector2.Distance(transform.position, dirMoveFixed) > 1.2f)
+                    {
+                        firstAttack = true;
+                        TransitionToState(EnemyState.Walk);
+                    }
                 }
 
                 if (currentTarget == null && GameManager.Instance.isPlayer1Dead == false)
