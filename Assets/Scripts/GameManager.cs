@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     float sec;
     int min;
+    bool uI;
 
     private void Awake()
     {
@@ -26,10 +28,19 @@ public class GameManager : MonoBehaviour
             min++;
             sec = 0;
         }
+
+        if (Input.anyKey && uI)
+        {
+            Debug.Log("Menu");
+            SceneManager.LoadScene("Menu");
+        }
     }
 
     public string GetTime()
     {
+        player1.GetComponent<PlayerBehavior>().enabled = false;
+        Debug.Log(""+ player1.GetComponent<PlayerBehavior>().currentState.ToString());
+        StartCoroutine(WaitForUi());
         return "Time : " + min.ToString("00") + ":" + Mathf.Floor(sec).ToString("00");
     }
 
@@ -53,5 +64,11 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("SavedScore", score);
         }
+    }
+
+    IEnumerator WaitForUi()
+    {
+        yield return new WaitForSeconds(2);
+        uI = true;
     }
 }
