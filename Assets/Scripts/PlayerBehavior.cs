@@ -38,7 +38,7 @@ public class PlayerBehavior : MonoBehaviour
         ATTACKING,
         JUMPING,
         DEATH,
-        JUMPATTACK
+        JUMPATTACK,
     }
     public PlayerState currentState;
 
@@ -134,12 +134,10 @@ public class PlayerBehavior : MonoBehaviour
         if (currentPlayer == PlayerNumber.PLAYER1)
         {
             dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            Debug.Log("direction player 1" + dirInput);
         }
         else if (currentPlayer == PlayerNumber.PLAYER2)
         {
             dirInput = new Vector2(Input.GetAxisRaw("HorizontalP2"), Input.GetAxisRaw("VerticalP2"));
-            Debug.Log("direction player 2" + dirInput);
         }
 
         //PLAYER DIRECTION
@@ -639,12 +637,12 @@ public class PlayerBehavior : MonoBehaviour
         //currentEnergy = 0;
 
         //Smoke left
-        var coords = new Vector3(transform.position.x - 1.5f, transform.position.y - 1.0f, transform.position.z);
+        var coords = new Vector3(transform.position.x - 0.0f, transform.position.y - 0.0f, transform.position.z);
         var rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         Instantiate(FxPrefab[7], coords, rotation);
 
         //Smoke right
-        coords = new Vector3(transform.position.x + 1.5f, transform.position.y - 1.0f, transform.position.z);
+        coords = new Vector3(transform.position.x + 0.0f, transform.position.y - 0.0f, transform.position.z);
         rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         Instantiate(FxPrefab[7], coords, rotation);
 
