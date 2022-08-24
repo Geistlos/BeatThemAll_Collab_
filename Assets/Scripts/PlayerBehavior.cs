@@ -234,6 +234,14 @@ public class PlayerBehavior : MonoBehaviour
                 break;
             case PlayerState.JUMPING:
                 animator.SetBool("IsJumping", true);
+                if (!flipped)
+                {
+                    Instantiate(FxPrefab[3], new Vector3(transform.position.x + 0f, transform.position.y - .25f, transform.position.z), Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(FxPrefab[3], new Vector3(transform.position.x - 0f, transform.position.y - .25f, transform.position.z), Quaternion.identity);
+                }
                 break;
             case PlayerState.DEATH:
                 break;
@@ -407,6 +415,14 @@ public class PlayerBehavior : MonoBehaviour
                 animator.SetBool("IsJumping", false);
                 break;
             case PlayerState.JUMPING:
+                if (!flipped)
+                {
+                    Instantiate(FxPrefab[4], new Vector3(transform.position.x, transform.position.y - .15f, transform.position.z), Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(FxPrefab[4], new Vector3(transform.position.x, transform.position.y - .15f, transform.position.z), transform.rotation);
+                }
                 animator.SetBool("IsJumping", false);
                 break;
             case PlayerState.DEATH:
@@ -423,6 +439,17 @@ public class PlayerBehavior : MonoBehaviour
     //CALLED TO TRANSITION BETWEEN TWO STATES
     void TransitionToState(PlayerState newState)
     {
+        if(currentState == PlayerState.IDLE && newState == PlayerState.WALK)
+        {
+            if (!flipped)
+            {
+                Instantiate(FxPrefab[0], new Vector3(transform.position.x, transform.position.y - .15f, transform.position.z), Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(FxPrefab[0], new Vector3(transform.position.x, transform.position.y - .15f, transform.position.z), transform.rotation);
+            }
+        }
         OnStateLeave();
         currentState = newState;
         OnStateEnter();
@@ -458,6 +485,14 @@ public class PlayerBehavior : MonoBehaviour
         {
             if (collider.tag == "Enemy")
             {
+                if (!flipped)
+                {
+                    Instantiate(FxPrefab[6], new Vector3(hitPosition.transform.position.x + 0f, hitPosition.transform.position.y + .5f, hitPosition.transform.position.z), transform.rotation);
+                }
+                else
+                {
+                    Instantiate(FxPrefab[6], new Vector3(hitPosition.transform.position.x - 0f, hitPosition.transform.position.y + .5f, hitPosition.transform.position.z), transform.rotation);
+                }
                 collider.GetComponent<EnemyBehavior>().TakeDamage(playerDmg);
                 playerEnergy += energyPetAtk;
                 _energyBar.SetEnergy(playerEnergy);

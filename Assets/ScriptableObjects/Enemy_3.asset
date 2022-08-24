@@ -29,3 +29,5 @@ MonoBehaviour:
   delayBetweenBlinks: 0
   healthPerCan: 0
   energyPerCan: 0
+  collectiblesMin: 1
+  collectiblesMax: 3
