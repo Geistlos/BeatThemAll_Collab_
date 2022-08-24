@@ -24,7 +24,8 @@ public class EnemyBehavior : MonoBehaviour
     float speed;
     float timer;
     float cooldown;
-
+    int collectiblesMin;
+    int collectiblesMax;
 
     void Start()
     {
@@ -34,6 +35,9 @@ public class EnemyBehavior : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         health = statsScriptable.life;
         speed = statsScriptable.speed;
+        collectiblesMin = statsScriptable.collectiblesMin;
+        collectiblesMax = statsScriptable.collectiblesMax;
+
         player1 = GameManager.Instance.player1.transform;
         if (GameManager.Instance.player2 != null) player2 = GameManager.Instance.player2.transform;
         TransitionToState(EnemyState.Idle);
@@ -60,7 +64,7 @@ public class EnemyBehavior : MonoBehaviour
                 break;
             case EnemyState.Dead:
                 gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
-                Instantiate(collecPrefab, transform.position, Quaternion.identity);
+                SpawnCollectibles(Random.Range(collectiblesMin,collectiblesMax+1));
                 animator.SetTrigger("DeathTrigger");
                 timer = 0f;
                 Level1Manager.Instance.killCount++;
@@ -257,6 +261,18 @@ public class EnemyBehavior : MonoBehaviour
             {
                 TakeDamage(10);
             }
+        }
+    }
+
+    void SpawnCollectibles(int quantity)
+    {
+        for (int i = 0; i < quantity; i++)
+        {
+            var coords = new Vector3(transform.position.x - .5f + Random.Range(0f, 1f),
+                transform.position.y - .5f + Random.Range(0f, 1f),
+                transform.position.z);
+            Instantiate(collecPrefab, coords, Quaternion.identity);
+            Debug.Log("Spawn collectible n: " + i);
         }
     }
 }
