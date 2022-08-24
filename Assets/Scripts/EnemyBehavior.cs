@@ -231,7 +231,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         Collider2D[] Colliders;
 
-        Colliders = Physics2D.OverlapCircleAll(transform.position, .5f);
+        Colliders = Physics2D.OverlapCircleAll(transform.position, 2f);
 
         foreach (Collider2D collider in Colliders)
         {
@@ -272,7 +272,6 @@ public class EnemyBehavior : MonoBehaviour
                 transform.position.y - .5f + Random.Range(0f, 1f),
                 transform.position.z);
             Instantiate(collecPrefab, coords, Quaternion.identity);
-            Debug.Log("Spawn collectible n: " + i);
         }
     }
 }

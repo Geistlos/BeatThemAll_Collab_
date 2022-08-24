@@ -24,7 +24,16 @@ public class AnimEventManager : MonoBehaviour
 
     private void Update()
     {
-        if(moving)
-        transform.Translate(direction * Time.deltaTime * speed, Space.World);
+        if (moving)
+            transform.Translate(direction * Time.deltaTime * speed, Space.World);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Collision");
+        if (collision.gameObject.tag == "Enemy")
+        {
+            collision.gameObject.GetComponent<EnemyBehavior>().TakeDamage(10);
+        }
     }
 }

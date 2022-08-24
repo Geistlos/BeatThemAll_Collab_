@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: Enemy_1
   m_EditorClassIdentifier: 
   life: 5
-  energy: 0
   speed: 2.5
   runningSpeed: 0
   dmg: 1
   attackSpeed: 1
   animator: {fileID: 9100000, guid: a36e54cc5200a034f9bfbfd512415602, type: 2}
   radiusHitbox: 0
-  energyPerAtk: 0
   airTime: 0
   jumpHeight: 0
   jumpingSpeed: 0
@@ -29,5 +27,8 @@ MonoBehaviour:
   delayBetweenBlinks: 0
   healthPerCan: 0
   energyPerCan: 0
+  energyPerAtk: 0
+  startingEnergy: 0
+  playerMaxEnergy: 0
   collectiblesMin: 1
   collectiblesMax: 1

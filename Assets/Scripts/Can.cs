@@ -181,7 +181,6 @@ public class Can : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision");
         if (collision.gameObject.tag == "Enemy")
         {
             if (!onTheGround && !carried)

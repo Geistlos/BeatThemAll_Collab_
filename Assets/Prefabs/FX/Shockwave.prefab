@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8048018697659939034}
   - component: {fileID: 8048018697659939039}
   - component: {fileID: -1179783880478356510}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shockwave
   m_TagString: FX
   m_Icon: {fileID: 0}
@@ -132,6 +132,6 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.2354064, y: 0}
+  m_Offset: {x: -0.7165421, y: 0}
   serializedVersion: 2
-  m_Radius: 0.7645936
+  m_Radius: 1.2834579
