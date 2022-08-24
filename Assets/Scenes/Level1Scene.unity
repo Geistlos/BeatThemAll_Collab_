@@ -624,6 +624,7 @@ MonoBehaviour:
   - {fileID: 552223236}
   camMovment: {fileID: 1074190665}
   goArrow: {fileID: 621106516}
+  finLevelUI: {fileID: 2133472159}
   killCount: 0
 --- !u!4 &154653014
 Transform:
@@ -6046,7 +6047,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2133472160
 RectTransform:
   m_ObjectHideFlags: 0

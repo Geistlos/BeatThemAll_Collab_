@@ -12,6 +12,7 @@ public class Level1Manager : MonoBehaviour
     [SerializeField] List<BoxCollider2D> boundColliders;
     [SerializeField] CameraMovement camMovment;
     [SerializeField] GameObject goArrow;
+    [SerializeField] GameObject finLevelUI;
     Transform playerTransform;
     float timer = 0f;
     public int killCount;
@@ -165,7 +166,7 @@ public class Level1Manager : MonoBehaviour
                 if (playerTransform.position.x >= 98f) TransitionToState(LevelState.wave6);
                 break;
             case LevelState.wave6:
-                if (killCount == 45 && !finLevel1) {Debug.Log("Level 1 Finished"); finLevel1 = true; }
+                if (killCount == 45 && !finLevel1) {finLevelUI.SetActive(true); finLevel1 = true; }
                 break;
             default:
                 break;
