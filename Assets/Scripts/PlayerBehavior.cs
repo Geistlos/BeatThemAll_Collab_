@@ -163,7 +163,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             isHoldingCan = true;
             animator.SetFloat("Can", 1);
-            canPosition.SetActive(true);
+            //canPosition.SetActive(true);
             var obj = Instantiate(canPrefab, canPosition.transform.position, Quaternion.identity);
             obj.transform.parent = canPosition.transform;
             obj.GetComponent<Can>().carried = true;
@@ -591,7 +591,6 @@ public class PlayerBehavior : MonoBehaviour
             }
             else
             {
-
                 TransitionToState(PlayerState.DEATH);
                 animator.SetTrigger("Dead");
                 GameManager.Instance.PlayerDied(1);

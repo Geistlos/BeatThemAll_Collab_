@@ -19,7 +19,7 @@ public class Can : MonoBehaviour
     float fallSpeed = 1f;
     int numberOfBlinks = 5;
     float delayBetweenBlinks = .2f;
-    float delayBeforeBlink = 2f;
+    float delayBeforeBlink = 5f;
     float radiusHitbox = .5f;
 
     //CONTROL
@@ -27,8 +27,9 @@ public class Can : MonoBehaviour
     public bool carried;
     float targetY = -Mathf.Infinity;
     float offSetY = 1.5f;
-    public bool droped;
+    public bool droped = true;
     public bool randomColor = true;
+    bool inTheAir;
 
     public enum canColor
     {
@@ -69,6 +70,15 @@ public class Can : MonoBehaviour
         {
             ThrowCan(false);
         }
+        //hitGround();
+        if (carried == false &&
+            Camera.main.WorldToViewportPoint(transform.position).x <= 1 &&
+            Camera.main.WorldToViewportPoint(transform.position).x >= 0 &&
+            Camera.main.WorldToViewportPoint(transform.position).y <= 1 &&
+            Camera.main.WorldToViewportPoint(transform.position).y >= 0)
+        {
+            hitGround();
+        }
     }
 
     private void Update()
@@ -85,6 +95,17 @@ public class Can : MonoBehaviour
             pickUpCan();
         }
 
+        if (onTheGround == false &&
+            carried == false &&
+            inTheAir == false &&
+            Camera.main.WorldToViewportPoint(transform.position).x <= 1 &&
+            Camera.main.WorldToViewportPoint(transform.position).x >= 0 &&
+            Camera.main.WorldToViewportPoint(transform.position).y <= 1 &&
+            Camera.main.WorldToViewportPoint(transform.position).y >= 0)
+        {
+            Debug.Log("See can");
+            hitGround();
+        }
         //SHADOW
         /*if (transform.position.y <= targetY + 1)
         {
@@ -127,6 +148,7 @@ public class Can : MonoBehaviour
 
     void hitGround()
     {
+        inTheAir = false;
         rb.velocity = Vector3.zero;
         rb.constraints = RigidbodyConstraints2D.FreezePosition;
         onTheGround = true;
@@ -138,10 +160,11 @@ public class Can : MonoBehaviour
     //THROW CAN, CALLED BY THE PLAYER. GET ORIENTATION FROM IT
     public void ThrowCan(bool flipped)
     {
+        inTheAir = true;
         rb.constraints = RigidbodyConstraints2D.None;
         carried = false;
         transform.parent = null;
-        
+
         _collider.isTrigger = true;
 
         if (!droped)
@@ -171,11 +194,14 @@ public class Can : MonoBehaviour
 
         SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
 
+
+
         for (int i = 0; i < numBlinks * 2; i++)
         {
             renderer.enabled = !renderer.enabled;
             yield return new WaitForSeconds(seconds);
         }
+
         Destroy(gameObject);
     }
 
